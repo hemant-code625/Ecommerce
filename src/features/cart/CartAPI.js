@@ -1,6 +1,8 @@
+import process from 'process';
+const VITE_REACT_APP_API_HOST = process.env.SERVER_HOST;
 
 export const AddToCart = async(items) => {
-  const response = await fetch('http://localhost:3000/cart',{
+  const response = await fetch(`${VITE_REACT_APP_API_HOST}/cart`,{
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

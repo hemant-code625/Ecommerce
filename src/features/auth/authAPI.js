@@ -1,5 +1,8 @@
+import process from 'process';
+const VITE_REACT_APP_API_HOST = process.env.SERVER_HOST;
+
 export const createUser = async (userData) => {
-    const respone = await fetch(`http://localhost:8080/users`, {
+    const respone = await fetch(`${VITE_REACT_APP_API_HOST}/users`, {
         method: 'POST',
         headers: {
             'content-Type': 'application/json',
@@ -19,7 +22,7 @@ export const checkUser = async (userInfo) => {
     const email = userInfo.email;
     const password = userInfo.password;
     try {
-      const response = await fetch(`http://localhost:8080/users?email=${email}`);
+      const response = await fetch(`${VITE_REACT_APP_API_HOST}/users?email=${email}`);
       const data = await response.json();
       if (data && data.length > 0 && data[0].password === password) {
         return data[0];
@@ -33,7 +36,7 @@ export const checkUser = async (userInfo) => {
       }
     }
     catch (error) {
-        return { message: "Ops! Something went wrong!" };
+        return { message: "Ops! Server Error!" };
     }
   };
   

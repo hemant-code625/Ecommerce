@@ -1,9 +1,11 @@
 /* eslint-disable no-async-promise-executor */
+import process from 'process';
+const VITE_REACT_APP_API_HOST = process.env.SERVER_HOST;
 
 export function fetchAllProducts() {
   return new Promise(async (resolve) =>{
     //TODO: we will not hard-code server URL here
-    const response = await fetch('http://localhost:8080/products') 
+    const response = await fetch(`${VITE_REACT_APP_API_HOST}/products`) 
     const data = await response.json()
     resolve({data})
   }
@@ -13,7 +15,7 @@ export function fetchAllProducts() {
 export function fetchProductById(id) {
   return new Promise(async (resolve) =>{
     //TODO: we will not hard-code server URL here
-    const response = await fetch('http://localhost:8080/products/'+id) 
+    const response = await fetch(`${VITE_REACT_APP_API_HOST}/products/`+id) 
     const data = await response.json()
     resolve({data})
   }
@@ -44,7 +46,7 @@ export function fetchProductsByFilters(filter,sort,pagination) {
 
   return new Promise(async (resolve) =>{
     //TODO: we will not hard-code server URL here
-    const response = await fetch('http://localhost:8080/products?'+queryString) 
+    const response = await fetch(`${VITE_REACT_APP_API_HOST}/products?`+queryString) 
     const data = await response.json()
     const totalItems = await response.headers.get('X-Total-Count')
     resolve({data:{products:data,totalItems:+totalItems}})
@@ -55,7 +57,7 @@ export function fetchProductsByFilters(filter,sort,pagination) {
 
 export function fetchCategories() {
   return new Promise(async (resolve) =>{
-    const response = await fetch('http://localhost:8080/categories') 
+    const response = await fetch(`${VITE_REACT_APP_API_HOST}/categories`) 
     const data = await response.json()
     resolve({data})
   }
@@ -64,7 +66,7 @@ export function fetchCategories() {
 
 export function fetchBrands() {
   return new Promise(async (resolve) =>{
-    const response = await fetch('http://localhost:8080/brands') 
+    const response = await fetch(`${VITE_REACT_APP_API_HOST}/brands`) 
     const data = await response.json()
     resolve({data})
   }

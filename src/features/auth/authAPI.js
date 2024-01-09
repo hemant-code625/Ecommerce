@@ -1,6 +1,6 @@
-import process from 'process';
-const VITE_REACT_APP_API_HOST = process.env.SERVER_HOST;
-
+// import process from 'process';
+// const VITE_REACT_APP_API_HOST = process.env.SERVER_HOST;
+const VITE_REACT_APP_API_HOST = import.meta.env.VITE_REACT_APP_API_HOST;
 export const createUser = async (userData) => {
     const respone = await fetch(`${VITE_REACT_APP_API_HOST}/users`, {
         method: 'POST',

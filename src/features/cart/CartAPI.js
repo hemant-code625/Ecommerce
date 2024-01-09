@@ -1,6 +1,6 @@
-import process from 'process';
-const VITE_REACT_APP_API_HOST = process.env.SERVER_HOST;
-
+// import process from 'process';
+// const VITE_REACT_APP_API_HOST = process.env.SERVER_HOST;
+const VITE_REACT_APP_API_HOST = import.meta.env.VITE_REACT_APP_API_HOST;
 export const AddToCart = async(items) => {
   const response = await fetch(`${VITE_REACT_APP_API_HOST}/cart`,{
     method: 'POST',

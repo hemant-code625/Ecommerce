@@ -1,7 +1,7 @@
 /* eslint-disable no-async-promise-executor */
-import process from 'process';
-const VITE_REACT_APP_API_HOST = process.env.SERVER_HOST;
-
+// import process from 'process';
+// const VITE_REACT_APP_API_HOST = process.env.SERVER_HOST;
+const VITE_REACT_APP_API_HOST = import.meta.env.VITE_REACT_APP_API_HOST;
 export function fetchAllProducts() {
   return new Promise(async (resolve) =>{
     //TODO: we will not hard-code server URL here

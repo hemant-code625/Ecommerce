@@ -1,3 +1,4 @@
+// npx json-server --watch ./src/app/data.json --middlewares ./cors.cjs --port 8080 --host 0.0.0.0
 {
   "products": [
     {

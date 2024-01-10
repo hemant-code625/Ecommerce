@@ -51,7 +51,7 @@ export default function ProductDetail() {
 
   const handleCart = (e)=>{
     e.preventDefault();
-    dispatch(addToCartAsync({...product,quantity:1,user:user.id })) 
+    dispatch(addToCartAsync({...product,quantity:1,user:user })) 
   }
 
   useEffect(() => {

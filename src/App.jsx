@@ -7,9 +7,20 @@ import ProductDetailPage from './pages/ProductDetailPage.jsx'
 import Checkout from './pages/Checkout.jsx'
 import './index.css'
 import Protected from './features/auth/components/Protected.jsx'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectLoggedInUser } from './features/auth/authSlice.js'
+import { fetchCartByUserIdAsync } from './features/cart/CartSlice.js'
 
 function App() {
- 
+  const dispatch = useDispatch();
+  const user = useSelector(selectLoggedInUser);
+  useEffect(()=>{
+    if(user){
+      dispatch(fetchCartByUserIdAsync(user.id));
+      
+    }
+  },[user, dispatch])
   return (
     <>
       <Router>

@@ -1,17 +1,27 @@
 import { Link } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux'
 import { selectAllCart } from './CartSlice';
-import { updateCartItemAsync } from './CartSlice';
+import {
+  updateCartItemAsync,
+  deleteCartItemAsync } from './CartSlice';
 
 const Cart = () => {
-  const products = useSelector(selectAllCart);
+  let products = useSelector(selectAllCart);
+
+  if (!products || !Array.isArray(products)) {
+    products = [];
+  }
+
+  const handleRemove= (e,id)=>{
+    dispatch(deleteCartItemAsync(id));
+  }
   const dispatch = useDispatch();
   // here in reduce function we have a callback function with accumulator as its first argument and current value of each item in the array as second argument. This function also has initial value as second argument which is 0 here.
   const totalAmount = products.reduce((amount, product)=> amount + product.price * product.quantity, 0);
   const totalItems = products.reduce((total, product)=> total + product.quantity, 0);
+
   const handleChange=(e, product) =>{
     dispatch(updateCartItemAsync({...product, quantity: parseInt(e.target.value)}));
-    
   }
 
 
@@ -66,6 +76,7 @@ const Cart = () => {
                         <div className="flex">
                           <button
                             type="button"
+                            onClick={(e)=> handleRemove(e, product.id)}
                             className="font-medium text-indigo-600 hover:text-indigo-500"
                           >
                             Remove

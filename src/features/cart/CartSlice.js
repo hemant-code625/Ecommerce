@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AddToCart, FetchCartByUserId, UpdateCart } from './CartAPI';
+import { AddToCart, DeleteCart, FetchCartByUserId, UpdateCart } from './CartAPI';
 
 const initialState = {
-  items:[],
+  cartItems:[],
   value: 0,
   status: 'idle', // Add the 'status' property and initialize it to 'idle'
 };
@@ -10,8 +10,8 @@ const initialState = {
 
 export const addToCartAsync = createAsyncThunk(
   'cart/addToCart',
-  async (items) => {
-    const response = await AddToCart(items);
+  async (item) => {
+    const response = await AddToCart(item);
     return response;
   }
 );
@@ -22,12 +22,16 @@ export const updateCartItemAsync = createAsyncThunk(
   }
 );
 
+export const deleteCartItemAsync = createAsyncThunk('cart/deleteCartItem', async (id) => {
+  const response = await DeleteCart(id);
+  return response;
+});
+
 export const fetchCartByUserIdAsync = createAsyncThunk(
   'cart/fetchCartByUserId',
     async (userId) => {
-      console.log(response)
       const response = await FetchCartByUserId(userId);
-    return response.data;
+    return response;
     }
 );
 
@@ -46,28 +50,45 @@ export const productSlice = createSlice({
       })
       .addCase(addToCartAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.items.push(action.payload);
-      })
+        if (state.cartItems) {
+          state.cartItems.push(action.payload);
+        } else {
+          state.cartItems = [action.payload];
+        }
+      })   
       .addCase(fetchCartByUserIdAsync.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(fetchCartByUserIdAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.items = action.payload;
+        state.cartItems = action.payload;
+      })
+      .addCase(fetchCartByUserIdAsync.rejected, (state, action) => {
+        state.status = 'idle';
+        state.error = action.error.message;
+        console.log(action.error.message);
       })
       .addCase(updateCartItemAsync.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(updateCartItemAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        const index = state.items.findIndex(item => item.id === action.payload.id);
-        state.items[index] = action.payload;
+        const index = state.cartItems.findIndex(item => item.id === action.payload.id);
+        state.cartItems[index] = action.payload;
+      })
+      .addCase(deleteCartItemAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(deleteCartItemAsync.fulfilled, (state,action) => {
+        state.status = 'idle';
+        const index = state.cartItems.findIndex(item => item.id === action.payload.id);
+        state.cartItems.splice(index,1);
       })
   },
 });
 
 export const { increment } = productSlice.actions;
 
-export const selectAllCart = (state) => state.cart.items;
+export const selectAllCart = (state) => state.cart.cartItems;
 export const selectCartById = (state) => state.cart.value;
 export default productSlice.reducer;

@@ -30,7 +30,7 @@ function classNames(...classes) {
 }
 
 export default function Navbar({children}) {
-  const cart = useSelector(selectAllCart);
+  let cart = useSelector(selectAllCart);
     return (
       <>
       <div className="min-h-full">
@@ -83,7 +83,7 @@ export default function Navbar({children}) {
                           />
                         </button>
                       </Link>
-                      {cart.length >0 && <span className="inline-flex items-center rounded-md bg-red-50 mb-7 -ml-3 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                      { cart && cart.length >0 && <span className="inline-flex items-center rounded-md bg-red-50 mb-7 -ml-3 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
                         {cart.length}
                       </span>}
 
@@ -196,7 +196,7 @@ export default function Navbar({children}) {
                         />
                       </button>
                     </Link>
-                    {cart.length >0 && <span className="inline-flex items-center rounded-md bg-red-50 mb-7 -ml-3 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                    {cart && cart.length >0 && <span className="inline-flex items-center rounded-md bg-red-50 mb-7 -ml-3 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
                     {cart.length}
                     </span>}
                   </div>

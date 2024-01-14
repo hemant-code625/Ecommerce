@@ -1,23 +1,56 @@
 /* eslint-disable no-useless-escape */
 import { useSelector, useDispatch } from 'react-redux';
-import {selectError, selectLoggedInUser } from '../authSlice';
-import { Link, Navigate } from 'react-router-dom';
+import {GoogleAuthAsync, selectError, selectLoggedInUser } from '../authSlice';
+import { Link, useNavigate } from 'react-router-dom';
 import { checkUserAsync } from '../authSlice';
 import { useForm } from 'react-hook-form';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
+import { useEffect } from 'react';
 
 export default function Login() {
   const dispatch = useDispatch();
   const error = useSelector(selectError)
   const user = useSelector(selectLoggedInUser)
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  const handleSuccess = (credentialResponse) => {
+    try {
+      const token = credentialResponse.credential;
+      const decodedToken = jwtDecode(token);
+      const user = {
+        id: decodedToken.sub,
+        name: decodedToken.name,
+        email: decodedToken.email,
+        picture: decodedToken.picture,
+      };
+      dispatch(GoogleAuthAsync(user)).then(() => {
+        navigate('/');
+      }).catch((err) => {
+        console.log("Ops!Something went wrong",err)
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleError = () => {
+    console.log('Login Failed');
+  };
+
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
+  
+
   return (
     <>
-      {user && <Navigate to='/' replace={true}></Navigate>}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -39,7 +72,6 @@ export default function Login() {
               );
             })}
             className="space-y-6"
-            action="#"
             method="POST"
           >
             <div>
@@ -59,6 +91,7 @@ export default function Login() {
                       message: 'email not valid',
                     },
                   })}
+                  autoComplete='email'
                   type="email"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -67,7 +100,6 @@ export default function Login() {
                 )}
               </div>
             </div>
-
             <div>
               <div className="flex items-center justify-between">
                 <label
@@ -110,6 +142,11 @@ export default function Login() {
               >
                 Log in
               </button>
+              <div className='flex w-full justify-center my-5 px-3 py-1.5 text-sm font-semibold'>
+              <GoogleLogin 
+              onSuccess={handleSuccess}
+              onError={handleError} />
+              </div>
             </div>
           </form>
 

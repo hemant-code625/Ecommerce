@@ -7,11 +7,13 @@ import ProductDetailPage from './pages/ProductDetailPage.jsx'
 import Checkout from './pages/Checkout.jsx'
 import './index.css'
 import Protected from './features/auth/components/Protected.jsx'
-
+import { GoogleOAuthProvider } from '@react-oauth/google';
+const VITE_GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 function App() {
   return (
     <>
+    <GoogleOAuthProvider clientId={`${VITE_GOOGLE_CLIENT_ID}`}>
       <Router>
         <Routes>
           <Route path='/' element={<Protected > <Home/> </Protected> } /> 
@@ -30,6 +32,7 @@ function App() {
           <Route path='*' element={<h1 className='pageNotFound'>4 Oh! 4 <h2>Not Found</h2></h1>} /> */}
         </Routes>
       </Router>
+      </GoogleOAuthProvider>
     </>
   )
 }

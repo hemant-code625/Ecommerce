@@ -1,5 +1,8 @@
+/* eslint-disable no-useless-escape */
 import { Link } from 'react-router-dom';
-
+import {useDispatch} from 'react-redux'
+import { UpdateUser } from '../features/auth/authAPI';
+import { useForm } from 'react-hook-form';
 const products = [
   {
     id: 1,
@@ -46,12 +49,16 @@ const addresses = [
     phone: 123123123,
   },
 ];
+
 function Checkout() {
+  const dispatch = useDispatch();
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  errors.length > 0 && console.log(errors);
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
         <div className="lg:col-span-3">
-          <form className="bg-white px-5 py-12 mt-12">
+          <form className="bg-white px-5 py-12 mt-12" noValidate onSubmit={handleSubmit((data)=> console.log(data) && dispatch(UpdateUser(data)))}>
             <div className="space-y-12">
               <div className="border-b border-gray-900/10 pb-12">
                 <h2 className="text-2xl font-semibold leading-7 text-gray-900">
@@ -64,35 +71,17 @@ function Checkout() {
                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                   <div className="sm:col-span-3">
                     <label
-                      htmlFor="first-name"
+                      htmlFor="full-name"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
-                      First name
+                      Full name
                     </label>
                     <div className="mt-2">
                       <input
                         type="text"
-                        name="first-name"
+                        {...register("name", { required: "Name is required"})}
                         id="first-name"
-                        autoComplete="given-name"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="sm:col-span-3">
-                    <label
-                      htmlFor="last-name"
-                      className="block text-sm font-medium leading-6 text-gray-900"
-                    >
-                      Last name
-                    </label>
-                    <div className="mt-2">
-                      <input
-                        type="text"
-                        name="last-name"
-                        id="last-name"
-                        autoComplete="family-name"
+                        autoComplete="name"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
                     </div>
@@ -108,7 +97,7 @@ function Checkout() {
                     <div className="mt-2">
                       <input
                         id="email"
-                        name="email"
+                        {...register("email", { required: "Email is required", pattern:{value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, message: "Enter a valid email address"} })}
                         type="email"
                         autoComplete="email"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -118,22 +107,19 @@ function Checkout() {
 
                   <div className="sm:col-span-3">
                     <label
-                      htmlFor="country"
+                      htmlFor="phone-number"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
-                      Country
+                      Phone Number
                     </label>
                     <div className="mt-2">
-                      <select
-                        id="country"
-                        name="country"
-                        autoComplete="country-name"
+                      <input
+                        id="phone-number"
+                        {...register("phone", { required: "Phone is required", pattern:{value: /^[0-9]{10}$/, message: "Enter a valid phone number"} })}
+                        type="tel"
+                        autoComplete="tel"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      >
-                        <option>United States</option>
-                        <option>Canada</option>
-                        <option>Mexico</option>
-                      </select>
+                      />
                     </div>
                   </div>
 
@@ -147,7 +133,7 @@ function Checkout() {
                     <div className="mt-2">
                       <input
                         type="text"
-                        name="street-address"
+                        {...register("street", { required: "Street is required"})}
                         id="street-address"
                         autoComplete="street-address"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -165,7 +151,7 @@ function Checkout() {
                     <div className="mt-2">
                       <input
                         type="text"
-                        name="city"
+                        {...register("city", { required: "City is required"})}
                         id="city"
                         autoComplete="address-level2"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -183,7 +169,7 @@ function Checkout() {
                     <div className="mt-2">
                       <input
                         type="text"
-                        name="region"
+                        {...register("state", { required: "State is required"})}
                         id="region"
                         autoComplete="address-level1"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -201,7 +187,7 @@ function Checkout() {
                     <div className="mt-2">
                       <input
                         type="text"
-                        name="postal-code"
+                        {...register("pinCode", { required: "Pincode is required"})}
                         id="postal-code"
                         autoComplete="postal-code"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -234,9 +220,9 @@ function Checkout() {
                   Choose from Existing addresses
                 </p>
                 <ul role="list">
-                  {addresses.map((address) => (
+                  {addresses.map((address,index) => (
                     <li
-                      key={address.email}
+                      key={index}
                       className="flex justify-between gap-x-6 px-5 py-5 border-solid border-2 border-gray-200"
                     >
                       <div className="flex gap-x-4">

@@ -1,5 +1,24 @@
+/* eslint-disable no-useless-escape */
+import { Link, useNavigate} from "react-router-dom";
+import { useForm } from "react-hook-form";
+import {  createUserAsync } from "../authSlice";
+import { useDispatch
+ } from "react-redux";
+import { useEffect, useState } from "react";
+
+
 
 const SignUp = () => {
+  const dispatch = useDispatch();
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate();
+  const [login, setLogin] = useState(false);
+  useEffect(()=>{
+    if(login){
+      navigate('/login');
+    }
+  },[login, navigate])
+
   return (
     <div>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -15,7 +34,26 @@ const SignUp = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" 
+          onSubmit={handleSubmit((data)=> dispatch(createUserAsync({name:data.name , email: data.email , password: data.password, address: []})).then(() => {
+            setLogin(true)
+          }).catch((err) => {
+            console.log("Ops!Something went wrong in creating user",err)
+          }) )}>
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+                Full Name
+              </label>
+              <div className="mt-2">
+                <input
+                  id="name"
+                  {...register("name", { required: "Name is required"})}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <p className="text-red-500">{errors?.name?.message}</p>
+
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Email address
@@ -23,38 +61,52 @@ const SignUp = () => {
               <div className="mt-2">
                 <input
                   id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
+                  {...register("email", { required: "Email is required", pattern:{value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, message: "Enter a valid email address"} })}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
+            <p className="text-red-500">{errors?.email?.message}</p>
 
             <div>
               <div className="flex items-center justify-between">
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                   Password
                 </label>
-                <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    Forgot password?
-                  </a>
-                </div>
               </div>
               <div className="mt-2">
                 <input
                   id="password"
-                  name="password"
+                  {...register("password", { required: "Password is required", pattern: { value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*()_+])[A-Za-z\d@#$%^&*()_+]{8,}$/ , message: <>
+                  Password must have :<br />
+                  - at least 8 characters long<br />
+                  - contain at least one uppercase letter (A-Z)<br />
+                  - contain at least one lowercase letter (a-z)<br />
+                  - contain at least one number (0-9)<br />
+                  - contain at least one special character (@#$%^&*()_+)
+                </>
+                    } })}
                   type="password"
-                  autoComplete="current-password"
-                  required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
+            <p className="text-red-500">{errors?.password?.message}</p>
 
+            <div className="flex items-center justify-between">
+                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                  Confirm Password
+                </label>
+              </div>
+              <div className="mt-2">
+                <input
+                  id="confirm-password"
+                  {...register("confirmPassword", {validate: (value, formValue) => value === formValue.password  || "Passwords do not match"}, {required: "Confirm Password is required"})}
+                  type="password"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            <p className="text-red-500">{errors?.confirmPassword?.message}</p>
             <div>
               <button
                 type="submit"
@@ -66,10 +118,10 @@ const SignUp = () => {
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Not a member?{' '}
-            <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-              Start a 14 day free trial
-            </a>
+            Already a member?{' '}
+            <Link to={'/login'} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+              Login
+            </Link>
           </p>
         </div>
       </div>

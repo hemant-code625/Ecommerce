@@ -2336,24 +2336,24 @@
   ],
   "users": [
     {
+      "name": "Test User",
       "email": "test@gmail.com",
       "password": "Test@123",
+      "address": [],
       "id": 1
     },
     {
-      "email": "test123@gmail.com",
-      "password": "test@123D",
-      "id": 4
-    },
-    {
+      "name": "John Doe",
       "email": "johndoe@gmail.com",
       "password": "John@123",
-      "id": 5
+      "address": [],
+      "id": 2
     },
     {
-      "email": "demo@gmail.com",
-      "password": "Demo@234",
-      "id": 6
+      "name": "Hemant Singh Parmar",
+      "email": "anmolpawar877@gmail.com",
+      "picture": "https://lh3.googleusercontent.com/a/ACg8ocLAR0qC1bLydIVIXVtOfDjCoj66e14s5596O2fi0CszXgJE=s96-c",
+      "id": 3
     }
   ],
   "cart": [
@@ -2374,7 +2374,7 @@
         "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg"
       ],
       "quantity": 1,
-      "user": 1,
+      "user": "115368796160533144078",
       "id": 1
     },
     {
@@ -2394,7 +2394,7 @@
         "https://cdn.dummyjson.com/product-images/6/4.jpg"
       ],
       "quantity": 1,
-      "user": 1,
+      "user": "115368796160533144078",
       "id": 2
     }
   ]

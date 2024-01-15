@@ -27,7 +27,7 @@ export const GoogleAuth = async (userData) => {
     })
     if (respone.ok) {
         console.log("response ok", userData);
-        userData = { ...userData, address:[]};
+        userData = { ...userData,addresses:[]};
         return await userData;
     }else{
         throw new Error('Something went wrong');
@@ -39,7 +39,8 @@ export const CheckGoogleUserExist = async (userData) => {
     if (res && res.length > 0) {
         for (let i =0 ; i<res.length; i++){
             if (res[i].email === userData.email){
-                return true;
+                const data = await res[i];
+                return data;
             }
         }
     }
@@ -47,6 +48,7 @@ export const CheckGoogleUserExist = async (userData) => {
         throw new Error('Error in checking user');
     }
 }
+
 export const checkUser = async (userInfo) => {
     const email = userInfo.email;
     const password = userInfo.password;
@@ -68,19 +70,31 @@ export const checkUser = async (userInfo) => {
         return { message: "Ops! Server Error!" };
     }
   };
-
+  export const fetchGoogleAddresses = async (id) => {
+    const response = await fetch(`${VITE_REACT_APP_API_HOST}/users/${id}`, {
+      method: 'GET',
+      headers: {
+        'content-Type':'application/json',
+      },
+    });
+  
+    const data = await response.json();
+    // Extract and return the addresses from the API response
+    return data.addresses || [];
+  };
   export const UpdateUser = async (data) => {
-    const respone = await fetch(`${VITE_REACT_APP_API_HOST}/users`, {
-        method: 'PATCH',
-        headers: {
-            'content-Type': 'application/json',
+    const respone = await fetch(`${VITE_REACT_APP_API_HOST}/users/${data.id}`,{
+        method:'PATCH',
+        headers:{
+            'content-Type':'application/json',
         },
-        body: JSON.stringify(data),
+        body:JSON.stringify(data),
     })
-    if (respone.ok) {
+    if (respone.ok){
         const data = await respone.json();
         return data;
-    } else {
-        throw new Error('Something went wrong')
+    }
+    else{
+        throw new Error('Something went wrong');
     }
 }

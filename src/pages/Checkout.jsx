@@ -1,64 +1,40 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-escape */
-import { Link } from 'react-router-dom';
-import {useDispatch} from 'react-redux'
-import { UpdateUser } from '../features/auth/authAPI';
-import { useForm } from 'react-hook-form';
-const products = [
-  {
-    id: 1,
-    name: 'Throwback Hip Bag',
-    href: '#',
-    color: 'Salmon',
-    price: '$90.00',
-    quantity: 1,
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
-    imageAlt:
-      'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
-  },
-  {
-    id: 2,
-    name: 'Medium Stuff Satchel',
-    href: '#',
-    color: 'Blue',
-    price: '$32.00',
-    quantity: 1,
-    imageSrc:
-      'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
-    imageAlt:
-      'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
-  },
-  // More products...
-];
 
-const addresses = [
-  {
-    name: 'John wick',
-    street: '11th Main',
-    city: 'Delhi',
-    pinCode: 110001,
-    state: 'Delhi',
-    phone: 12312321331,
-  },
-  {
-    name: 'John Doe',
-    street: '15th Main',
-    city: 'Bangalore',
-    pinCode: 560034,
-    state: 'Karnataka',
-    phone: 123123123,
-  },
-];
+import { Link,Navigate } from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux'
+import { useForm } from 'react-hook-form';
+import {deleteCartItemAsync, selectAllCart, updateCartItemAsync} from '../features/cart/CartSlice'
+import { selectLoggedInUser, updateUserAsync } from '../features/auth/authSlice';
+
+
+// TODO: Don't allow user to navigate to checkout page if cart is emptyy
 
 function Checkout() {
   const dispatch = useDispatch();
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const products= useSelector(selectAllCart);
+  const totalAmount = products.reduce((amount, product)=> amount + product.price * product.quantity,0);
+  const user = useSelector(selectLoggedInUser)
+
+  const handleRemove= (e,id)=>{
+    dispatch(deleteCartItemAsync(id));
+  }
+
+  const handleChange=(e, product) =>{
+    dispatch(updateCartItemAsync({...product, quantity: parseInt(e.target.value)}));
+  }
+  const totalItems = products.reduce((total, product)=> total + product.quantity, 0);
+
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
   errors.length > 0 && console.log(errors);
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
         <div className="lg:col-span-3">
-          <form className="bg-white px-5 py-12 mt-12" noValidate onSubmit={handleSubmit((data)=> console.log(data) && dispatch(UpdateUser(data)))}>
+          {/* here we dispatched a copy of previous user object and updated address by craeting another copy of updated address using spread operator */}
+          <form className="bg-white px-5 py-12 mt-12" noValidate onSubmit={handleSubmit(
+            (data)=> dispatch(updateUserAsync({...user, addresses:[...user.addresses, data]}))
+            .then(reset()))}>
             <div className="space-y-12">
               <div className="border-b border-gray-900/10 pb-12">
                 <h2 className="text-2xl font-semibold leading-7 text-gray-900">
@@ -200,6 +176,7 @@ function Checkout() {
               <div className="mt-6 flex items-center justify-end gap-x-6">
               <button
                 type="button"
+                onClick={()=>reset()}
                 className="text-sm font-semibold leading-6 text-gray-900"
               >
                 Reset
@@ -207,6 +184,7 @@ function Checkout() {
               <button
                 type="submit"
                 className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                
               >
                 Add Address
               </button>
@@ -220,7 +198,7 @@ function Checkout() {
                   Choose from Existing addresses
                 </p>
                 <ul role="list">
-                  {addresses.map((address,index) => (
+                  {user.addresses?.map((address,index) => (
                     <li
                       key={index}
                       className="flex justify-between gap-x-6 px-5 py-5 border-solid border-2 border-gray-200"
@@ -313,8 +291,8 @@ function Checkout() {
                     <li key={product.id} className="flex py-6">
                       <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                         <img
-                          src={product.imageSrc}
-                          alt={product.imageAlt}
+                          src={product.thumbnail}
+                          alt={product.title}
                           className="h-full w-full object-cover object-center"
                         />
                       </div>
@@ -323,35 +301,38 @@ function Checkout() {
                         <div>
                           <div className="flex justify-between text-base font-medium text-gray-900">
                             <h3>
-                              <a href={product.href}>{product.name}</a>
+                              <Link to="#">{product.title}</Link>
                             </h3>
                             <p className="ml-4">{product.price}</p>
                           </div>
-                          <p className="mt-1 text-sm text-gray-500">
+                          {/* <p className="mt-1 text-sm text-gray-500">
                             {product.color}
-                          </p>
+                          </p> */}
                         </div>
                         <div className="flex flex-1 items-end justify-between text-sm">
                           <div className="text-gray-500">
-                            <label
-                              htmlFor="quantity"
-                              className="inline mr-5 text-sm font-medium leading-6 text-gray-900"
-                            >
-                              Qty
-                            </label>
-                            <select>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                            </select>
-                          </div>
+                          <label
+                            htmlFor="quantity"
+                            className="inline mr-5 text-sm font-medium leading-6 text-gray-900"
+                          >
+                            Qty
+                          </label>
+                          <select value={product.quantity} onChange={(e)=> handleChange(e, product)}>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                          </select>
+                        </div>
 
-                          <div className="flex">
-                            <button
-                              type="button"
-                              className="font-medium text-indigo-600 hover:text-indigo-500"
-                            >
-                              Remove
-                            </button>
+                        <div className="flex">
+                          <button
+                            type="button"
+                            onClick={(e)=> handleRemove(e, product.id)}
+                            className="font-medium text-indigo-600 hover:text-indigo-500"
+                          >
+                            Remove
+                          </button>
                           </div>
                         </div>
                       </div>
@@ -363,8 +344,11 @@ function Checkout() {
 
             <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
               <div className="flex justify-between text-base font-medium text-gray-900">
+              <p>Total Items</p>
+              <p>{totalItems}</p>
+
                 <p>Subtotal</p>
-                <p>$262.00</p>
+                <p>${totalAmount}</p>
               </div>
               <p className="mt-0.5 text-sm text-gray-500">
                 Shipping and taxes calculated at checkout.

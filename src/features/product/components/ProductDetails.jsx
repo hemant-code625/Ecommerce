@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllProductByIdAsync, selectProductById } from '../ProductSlice.js';
 import { useParams } from 'react-router-dom';
 import { addToCartAsync } from '../../cart/CartSlice.js';
-import { selectGoogleUser, selectLoggedInUser } from '../../auth/authSlice';
+import { selectLoggedInUser } from '../../auth/authSlice';
 
 // TODO: In server data we will add colors, sizes , highlights. to each product
 
@@ -44,18 +44,13 @@ export default function ProductDetail() {
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
   const user = useSelector(selectLoggedInUser)
-  const googleUser = useSelector(selectGoogleUser);
   const product = useSelector(selectProductById);
   const dispatch = useDispatch();
   const params = useParams();
   // console.log("User:", user);
   // console.log("Google User:", googleUser);
 
-  if(user == null){
-    var loggedInUser = googleUser;
-  }else{
-    loggedInUser = user;
-  }
+  const loggedInUser = user;  
   const handleCart = (e) => {
     e.preventDefault();
     if(loggedInUser){

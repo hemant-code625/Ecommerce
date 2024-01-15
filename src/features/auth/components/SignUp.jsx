@@ -35,10 +35,10 @@ const SignUp = () => {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" 
-          onSubmit={handleSubmit((data)=> dispatch(createUserAsync({name:data.name , email: data.email , password: data.password, address: []})).then(() => {
+          onSubmit={handleSubmit((data)=> dispatch(createUserAsync({name:data.name , email: data.email , password: data.password, addresses: []})).then(() => {
             setLogin(true)
           }).catch((err) => {
-            console.log("Ops!Something went wrong in creating user",err)
+            console.log("Ops! Something went wrong in creating user",err)
           }) )}>
             <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">

@@ -18,17 +18,20 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const handleSuccess = (credentialResponse) => {
+  
+  // our logic is: if user is already in the db then just return the user details but here we need to pass the addresses array as well it should not be empty all the time! For this we need to fetch addresses using useEffect in the home page after login!
+  const handleSuccess = async (credentialResponse) => {
     try {
       const token = credentialResponse.credential;
       const decodedToken = jwtDecode(token);
       const user = {
-        id: decodedToken.sub,
         name: decodedToken.name,
         email: decodedToken.email,
         picture: decodedToken.picture,
+        addresses:[],
+        id: parseInt(decodedToken.sub),        // this id is dynamic and its of no use for us
       };
+      delete user.id;   // database will generate the id
       dispatch(GoogleAuthAsync(user)).then(() => {
         navigate('/');
       }).catch((err) => {

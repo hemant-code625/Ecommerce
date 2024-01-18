@@ -1,7 +1,6 @@
 const VITE_REACT_APP_API_HOST = import.meta.env.VITE_REACT_APP_API_HOST;
 
 export const AddToCart = async(item) => {
-  console.log(item)
     const response = await fetch(`${VITE_REACT_APP_API_HOST}/cart`,{
       method: 'POST',
       headers: {

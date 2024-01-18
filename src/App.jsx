@@ -8,6 +8,8 @@ import Checkout from './pages/Checkout.jsx'
 import './index.css'
 import Protected from './features/auth/components/Protected.jsx'
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import PageNotFound from './pages/PageNotFound.jsx'
+import OrderSuccessPage from './pages/OrderSuccessPage.jsx'
 const VITE_GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 function App() {
@@ -22,14 +24,8 @@ function App() {
           <Route path='/signup' element={<SignUp/>} />
           <Route path='/product-detail/:id' element={<Protected ><ProductDetailPage/></Protected>} />
           <Route path='/checkout' element={<Protected> <Checkout/></Protected>} />
-          <Route path='*' element={<h1 className='pageNotFound'>4 Oh! 4 <h2>Not Found</h2></h1>} />
-           {/* <Route path='/' element={< > <Home/> </> } /> 
-          <Route path='/cart' element={< ><CartPage/> </>} />
-          <Route path='/login' element={<Login/>} />
-          <Route path='/signup' element={<SignUp/>} />
-          <Route path='/product-detail/:id' element={< ><ProductDetailPage/></>} />
-          <Route path='/checkout' element={<> <Checkout/></>} />
-          <Route path='*' element={<h1 className='pageNotFound'>4 Oh! 4 <h2>Not Found</h2></h1>} /> */}
+          <Route path='/order-success' element={<Protected> <OrderSuccessPage/></Protected>} />
+          <Route path='*' element={ <PageNotFound/> } />
         </Routes>
       </Router>
       </GoogleOAuthProvider>

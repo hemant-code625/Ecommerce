@@ -117,7 +117,7 @@ const Cart = () => {
                 <Link to="/">
                 <button
                   type="button"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                  className="font-medium px-3 text-indigo-600 hover:text-indigo-500"
                 >
                   Continue Shopping
                   <span aria-hidden="true"> &rarr;</span>

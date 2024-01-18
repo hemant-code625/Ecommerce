@@ -1,11 +1,16 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-escape */
 
-import { Link,Navigate } from 'react-router-dom';
+import { Link,useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux'
 import { useForm } from 'react-hook-form';
 import {deleteCartItemAsync, selectAllCart, updateCartItemAsync} from '../features/cart/CartSlice'
 import { selectLoggedInUser, updateUserAsync } from '../features/auth/authSlice';
+import { useEffect, useState } from 'react';
+import { createOrderAsync, 
+  getOrderAsync, 
+  selectOrderStatus
+ } from '../features/orders/orderSlice';
 
 
 // TODO: Don't allow user to navigate to checkout page if cart is emptyy
@@ -15,6 +20,37 @@ function Checkout() {
   const products= useSelector(selectAllCart);
   const totalAmount = products.reduce((amount, product)=> amount + product.price * product.quantity,0);
   const user = useSelector(selectLoggedInUser)
+  const [payment, setPayment] = useState("cash");
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const navigate = useNavigate();
+  const handlePayment =(e)=>{
+    setPayment(e.target.value);
+  }
+  const handleAddress = (e) =>{
+    setSelectedAddress(user.addresses[e.target.value]);
+  }
+  const orderStatus = useSelector(selectOrderStatus);
+  const handleOrders =()=>{
+    if(selectedAddress && payment){
+      const order = {
+        products,
+        totalAmount,
+        payment,
+        address: selectedAddress,
+        status: "pending",
+      }
+    //TODO : Redirect to order-success page
+    //TODO : clear cart after order
+    //TODO : on server change the stock number of items
+    // you can use navigate function directly, regardless of the component's position in the component tree whereas Naviagte component can only be used inside the router
+      dispatch(createOrderAsync(order)).then(()=> navigate("/order-success"));
+      
+
+    }else{
+      // TODO : we can use proper messaging popup here
+      alert("Please select address and payment method");
+    }
+  }
 
   const handleRemove= (e,id)=>{
     dispatch(deleteCartItemAsync(id));
@@ -27,6 +63,7 @@ function Checkout() {
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   errors.length > 0 && console.log(errors);
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
@@ -204,8 +241,11 @@ function Checkout() {
                       className="flex justify-between gap-x-6 px-5 py-5 border-solid border-2 border-gray-200"
                     >
                       <div className="flex gap-x-4">
-                        <input
+                        <input 
                           name="address"
+                          value={index}
+                          onChange={(e)=>handleAddress(e)}
+                          checked = {selectedAddress === user.addresses[index]}
                           type="radio"
                           className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                         />
@@ -246,6 +286,9 @@ function Checkout() {
                         <input
                           id="cash"
                           name="payments"
+                          value={"cash"}
+                          onChange={(e)=>handlePayment(e)}
+                          checked = {payment === "cash"}
                           type="radio"
                           className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                         />
@@ -260,6 +303,9 @@ function Checkout() {
                         <input
                           id="card"
                           name="payments"
+                          value={"card"}
+                          onChange={(e)=>handlePayment(e)}
+                          checked = {payment === "card"}
                           type="radio"
                           className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                         />
@@ -354,20 +400,20 @@ function Checkout() {
                 Shipping and taxes calculated at checkout.
               </p>
               <div className="mt-6">
-                <Link
-                  to="/pay"
-                  className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                <div 
+                  onClick={()=> handleOrders()}
+                  className="flex items-center cursor-pointer justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                 >
-                  Pay and Order
-                </Link>
+                  Order Now
+                </div>
               </div>
               <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
-                <p>
+                <p >
                   or
                   <Link to="/">
                     <button
                       type="button"
-                      className="font-medium text-indigo-600 hover:text-indigo-500"
+                      className="font-medium px-3 text-indigo-600 hover:text-indigo-500"
                     >
                       Continue Shopping
                       <span aria-hidden="true"> &rarr;</span>

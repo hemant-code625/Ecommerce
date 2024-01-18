@@ -46,12 +46,13 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user ) {
+      window.localStorage.setItem('user', JSON.stringify(user));
       navigate('/');
     }
   }, [user, navigate]);
   
-
+  
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

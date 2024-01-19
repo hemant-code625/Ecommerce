@@ -10,6 +10,8 @@ import Protected from './features/auth/components/Protected.jsx'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import PageNotFound from './pages/PageNotFound.jsx'
 import OrderSuccessPage from './pages/OrderSuccessPage.jsx'
+import ProfilePage from './pages/ProfilePage.jsx'
+import OrdersPage from './pages/OrdersPage.jsx'
 const VITE_GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
           <Route path='/product-detail/:id' element={<Protected ><ProductDetailPage/></Protected>} />
           <Route path='/checkout' element={<Protected> <Checkout/></Protected>} />
           <Route path='/order-success' element={<Protected> <OrderSuccessPage/></Protected>} />
+          <Route path='/profile' element={<Protected> <ProfilePage/></Protected>} />
+          <Route path='/orders' element={<Protected> <OrdersPage/></Protected>} />
           <Route path='*' element={ <PageNotFound/> } />
         </Routes>
       </Router>

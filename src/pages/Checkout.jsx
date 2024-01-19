@@ -35,6 +35,7 @@ function Checkout() {
       const order = {
         products,
         totalAmount,
+        user,     
         payment,
         address: selectedAddress,
         status: "pending",

@@ -1,42 +1,38 @@
-import { useEffect } from "react";
-import { selectOrder } from "../orderSlice";
-import { Link } from "react-router-dom";
+/* eslint-disable no-unused-vars */
+import { useSelector, useDispatch } from 'react-redux'
+import { getOrderAsync, selectOrder } from '../../orders/orderSlice';
+import { useEffect,useState } from 'react';
+import { Link } from 'react-router-dom';
+import { selectLoggedInUser } from '../../auth/authSlice';
 
-import { resetCartAsync } from "../../cart/CartSlice";
-import {selectLoggedInUser} from "../../auth/authSlice"
-import { useSelector, useDispatch } from 'react-redux';
 
-const Order = () => {
-  const orders = useSelector(selectOrder);
-  const products = orders.currentOrder.products;
-  const address = orders.currentOrder.address;
-  const user = useSelector(selectLoggedInUser)
-  const dispatch = useDispatch();
-  console.log(orders);
-  useEffect(()=>{
-    dispatch(resetCartAsync(user.id))
-  })
+const MyOrders = () => {
+const orders = useSelector(selectOrder);
+const dispatch = useDispatch();
+const user = useSelector(selectLoggedInUser);
+// you can only use useSelector once the function is dispatched!
+
+useEffect(() => {
+  dispatch(getOrderAsync(user.id));
+}, [dispatch, user.id]);
+
   return (
-    <div>
-      <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
-        <div className="text-center w-3/4">
-          <p className="text-base font-semibold text-indigo-600">
-            Order PLaced Successfuly!
-          </p>
-          <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-            Order #{orders.currentOrder.id}
-          </h1>
+    <>
+    <p className="mt-4 mx-20 text-3xl font-bold tracking-tight text-gray-900 sm:text-2xl">
+            Your Orders:
+    </p>
+    {orders.currentOrder?.map((order,index)=>(
+        <main key={index} className="grid min-h-full place-items-center bg-white">
+        <div className="text-center w-3/4 my-4">
+          <p>Order #{order.id}</p>
           <p className="mt-6 text-base leading-7 text-gray-600">
-            You can check your all orders in My Accounts &gt; My Orders{" "}
-          </p>
-          <p className="mt-6 text-base leading-7 text-gray-600">
-            Status: {orders.currentOrder.status}
+            Status: {order.status}
           </p>
           <div className="mx-auto mt-12 bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
               <div className="flow-root">
                 <ul role="list" className="-my-6 divide-y divide-gray-200">
-                  {products.map((product) => (
+                  {order.products && order.products.map((product) => (
                     <li key={product.id} className="flex py-6">
                       <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                         <img
@@ -76,37 +72,43 @@ const Order = () => {
             </div>
             <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
               <div className="flex justify-between px-4 text-base font-medium text-gray-900">
-                <p>Billing Amount : ${orders.currentOrder.totalAmount}</p>
-                <p>Payment Method: {orders.currentOrder.payment}</p>
+                <p>Billing Amount : ${order.totalAmount}</p>
+                <p>Payment Method: {order.payment}</p>
               </div>
             </div>
           </div>
 
+         <p> Billing Address: </p> 
           <li className="flex justify-between gap-x-6 px-5 py-5 border-solid border-2 border-gray-200">
             <div className="flex gap-x-4">
               <div className="min-w-0 flex-auto">
                 <p className="text-sm font-semibold leading-6 text-gray-900">
-                  Name: {address.name}
+                  Name: {order.address.name}
                 </p>
                 <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                  Street: {address.street}
+                  Street: {order.address.street}
                 </p>
                 <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                  Pincode: {address.pinCode}
+                  Pincode: {order.address.pinCode}
                 </p>
               </div>
             </div>
             <div className="hidden sm:flex sm:flex-col sm:items-end">
               <p className="text-sm leading-6 text-gray-900">
-                Phone: {address.phone}
+                Phone: {order.address.phone}
               </p>
               <p className="text-sm leading-6 text-gray-500">
-                City: {address.city}
+                City: {order.address.city}
               </p>
             </div>
           </li>
 
-          <div className="mt-10 flex items-center justify-center gap-x-6">
+          
+        </div>
+      </main>
+      
+    ))}
+    <div className="mt-10 flex items-center justify-center gap-x-6 py-16">
             <Link
               to={"/"}
               replace={true}
@@ -120,11 +122,9 @@ const Order = () => {
             >
               Contact support <span aria-hidden="true">&rarr;</span>
             </Link>
-          </div>
         </div>
-      </main>
-    </div>
-  );
-};
+    </>
+  )
+}
 
-export default Order;
+export default MyOrders

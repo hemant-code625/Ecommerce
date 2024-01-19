@@ -32,6 +32,8 @@ export const UpdateCart = async(update) => {
 }
 
 export const DeleteCart = async(id) => {
+  // why in the url /cart?user={userId} the cart is not getting reset 
+  // why in the console its showing: CartAPI.js:35 DELETE http://localhost:8080/cart/4 404 (Not Found) 
   const response = await fetch(`${VITE_REACT_APP_API_HOST}/cart/${id}`,{
     method: 'DELETE',
     headers: {
@@ -40,4 +42,13 @@ export const DeleteCart = async(id) => {
   });
   const data = await response.json();
   return data;
+}
+export const resetCart = async(userId)=>{
+  // get the all the orders of that particular user and then delete them in loop
+  const cartItems = await FetchCartByUserId(userId);
+  // const cartData = cartItems.data;
+  for(let item of cartItems){
+     await DeleteCart(item.id);
+  }
+  return {"message": "Cart reset successfully"}
 }

@@ -47,7 +47,6 @@ export default function Login() {
 
   useEffect(() => {
     if (user ) {
-      window.localStorage.setItem('user', JSON.stringify(user));
       navigate('/');
     }
   }, [user, navigate]);

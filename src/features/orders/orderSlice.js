@@ -14,7 +14,7 @@ export const createOrderAsync = createAsyncThunk(
     return response;
   }
 )
-export const getOrderAsync = createAsyncThunk(
+export const getOrderAsync = createAsyncThunk(     // remove this thunk instead fetch orders in user slice
   'order/getOrder',
   async (id) => {
     const response = await getOrder(id);

@@ -18,7 +18,7 @@ export const createOrder = async (data)=>{
 }
 export const getOrder = async (id)=>{
     try {
-        const response = await fetch(`${VITE_REACT_APP_API_HOST}/orders?=${id}`);  // design this api
+        const response = await fetch(`${VITE_REACT_APP_API_HOST}/orders?user.id=${id}`); // here user is an object not a value in the json and thus has a having an id.
         const obj = await response.json();
         console.log(obj);
         return obj;

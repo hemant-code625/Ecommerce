@@ -12,6 +12,14 @@ import PageNotFound from './pages/PageNotFound.jsx'
 import OrderSuccessPage from './pages/OrderSuccessPage.jsx'
 import ProfilePage from './pages/ProfilePage.jsx'
 import OrdersPage from './pages/OrdersPage.jsx'
+import Logout from './features/auth/components/Logout.jsx'
+import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx'
+import ProtectedAdmin from './features/auth/components/ProtectedAdmin.jsx'
+import AdminProductPage from './pages/AdminProductPage.jsx'
+import AdminProductForm from './pages/AdminProductForm.jsx'
+import AdminProductDetailsPage from './pages/AdminProductDetailsPage.jsx'
+import AdminOrdersPage from './pages/AdminOrdersPage.jsx'
+
 const VITE_GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 function App() {
@@ -29,6 +37,13 @@ function App() {
           <Route path='/order-success' element={<Protected> <OrderSuccessPage/></Protected>} />
           <Route path='/profile' element={<Protected> <ProfilePage/></Protected>} />
           <Route path='/orders' element={<Protected> <OrdersPage/></Protected>} />
+          <Route path='/forgot-password' element={<> <ForgotPasswordPage/></>} />
+          <Route path='/logout' element={<Protected> <Logout/></Protected>} />
+          <Route path='/admin' element={<ProtectedAdmin> <AdminProductPage/></ProtectedAdmin>} />
+          <Route path='/admin/product-form' element={<ProtectedAdmin> <AdminProductForm/></ProtectedAdmin>} />
+          <Route path='/admin/product-form/edit/:id' element={<ProtectedAdmin> <AdminProductForm/></ProtectedAdmin>} />
+          <Route path='/admin/product-details/:id' element={<ProtectedAdmin> <AdminProductDetailsPage/></ProtectedAdmin>} />
+          <Route path='/admin/orders' element={<ProtectedAdmin> <AdminOrdersPage/></ProtectedAdmin>} />
           <Route path='*' element={ <PageNotFound/> } />
         </Routes>
       </Router>

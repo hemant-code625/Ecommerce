@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { StarIcon } from '@heroicons/react/20/solid';
 import { RadioGroup } from '@headlessui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProductByIdAsync, selectProductById } from '../ProductSlice.js';
+import { fetchProductByIdAsync, selectProductById } from '../../product/ProductSlice';
 import { useParams } from 'react-router-dom';
-import { addToCartAsync } from '../../cart/CartSlice.js';
+import { addToCartAsync } from '../../cart/CartSlice';
 import { selectLoggedInUser } from '../../auth/authSlice';
-import { discountedPrice } from '../../../app/constants.js';
+import { discountedPrice } from '../../../app/constants';
 
 // TODO: In server data we will add colors, sizes , highlights. to each product
 
@@ -31,40 +31,28 @@ const highlights = [
   'Dyed with our proprietary colors',
   'Pre-washed & pre-shrunk',
   'Ultra-soft 100% cotton',
-]
+];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
+// TODO : Loading UI
 
-
-// TODO : Loading UI  
-
-export default function ProductDetail() {
+export default function AdminProductDetail() {
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
-  const user = useSelector(selectLoggedInUser)
+  const user = useSelector(selectLoggedInUser);
   const product = useSelector(selectProductById);
   const dispatch = useDispatch();
   const params = useParams();
-  // console.log("User:", user);
-  // console.log("Google User:", googleUser);
 
-  const loggedInUser = user;  
   const handleCart = (e) => {
     e.preventDefault();
-    if(loggedInUser){
-      const newItem = {
-        ...product,
-        quantity: 1,
-        user: loggedInUser.id,
-      };
-      delete newItem['id'];
-      dispatch(addToCartAsync(newItem));
-    }
+    const newItem = { ...product, quantity: 1, user: user.id };
+    delete newItem['id'];
+    dispatch(addToCartAsync(newItem));
   };
-  
 
   useEffect(() => {
     dispatch(fetchProductByIdAsync(params.id));
@@ -76,7 +64,6 @@ export default function ProductDetail() {
         <div className="pt-6">
           <nav aria-label="Breadcrumb">
             <ol
-              role="list"
               className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
             >
               {product.breadcrumbs &&
@@ -160,7 +147,7 @@ export default function ProductDetail() {
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
               <p className="text-3xl tracking-tight text-gray-900">
-              ₹ {discountedPrice(product)}
+              ₹ {discountedPrice(product) && console.log("your are in admin's product details page")} 
               </p>
 
               {/* Reviews */}
@@ -339,10 +326,10 @@ export default function ProductDetail() {
                 <div className="mt-4">
                   <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
                     {highlights.map((highlight) => (
-                        <li key={highlight} className="text-gray-400">
-                          <span className="text-gray-600">{highlight}</span>
-                        </li>
-                      ))}
+                      <li key={highlight} className="text-gray-400">
+                        <span className="text-gray-600">{highlight}</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>

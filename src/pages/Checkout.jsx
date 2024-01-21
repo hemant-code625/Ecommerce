@@ -8,9 +8,9 @@ import {deleteCartItemAsync, selectAllCart, updateCartItemAsync} from '../featur
 import { selectLoggedInUser, updateUserAsync } from '../features/auth/authSlice';
 import { useEffect, useState } from 'react';
 import { createOrderAsync, 
-  getOrderAsync, 
   selectOrderStatus
  } from '../features/orders/orderSlice';
+import { discountedPrice } from '../app/constants';
 
 
 // TODO: Don't allow user to navigate to checkout page if cart is emptyy
@@ -18,7 +18,7 @@ import { createOrderAsync,
 function Checkout() {
   const dispatch = useDispatch();
   const products= useSelector(selectAllCart);
-  const totalAmount = products.reduce((amount, product)=> amount + product.price * product.quantity,0);
+  const totalAmount = products.reduce((amount, product)=> amount + discountedPrice(product) * product.quantity,0);
   const user = useSelector(selectLoggedInUser)
   const [payment, setPayment] = useState("cash");
   const [selectedAddress, setSelectedAddress] = useState(null);
@@ -350,7 +350,7 @@ function Checkout() {
                             <h3>
                               <Link to="#">{product.title}</Link>
                             </h3>
-                            <p className="ml-4">{product.price}</p>
+                            <p className="ml-4"> ₹ {discountedPrice(product)}</p>
                           </div>
                           {/* <p className="mt-1 text-sm text-gray-500">
                             {product.color}
@@ -395,7 +395,7 @@ function Checkout() {
               <p>{totalItems}</p>
 
                 <p>Subtotal</p>
-                <p>${totalAmount}</p>
+                <p> ₹ {totalAmount}</p>
               </div>
               <p className="mt-0.5 text-sm text-gray-500">
                 Shipping and taxes calculated at checkout.

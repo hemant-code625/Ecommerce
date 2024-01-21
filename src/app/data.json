@@ -17,25 +17,27 @@
         "https://cdn.dummyjson.com/product-images/1/3.jpg",
         "https://cdn.dummyjson.com/product-images/1/4.jpg",
         "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg"
-      ]
+      ],
+      "deleted": true
     },
     {
-      "id": 2,
       "title": "iPhone X",
       "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
-      "price": 899,
-      "discountPercentage": 17.94,
-      "rating": 4.44,
-      "stock": 34,
       "brand": "Apple",
       "category": "smartphones",
+      "price": 997,
+      "discountPercentage": 19,
+      "stock": 34,
       "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
       "images": [
         "https://cdn.dummyjson.com/product-images/2/1.jpg",
         "https://cdn.dummyjson.com/product-images/2/2.jpg",
         "https://cdn.dummyjson.com/product-images/2/3.jpg",
         "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg"
-      ]
+      ],
+      "rating": 4.44,
+      "id": 2,
+      "deleted": true
     },
     {
       "id": 3,
@@ -56,7 +58,7 @@
       "id": 4,
       "title": "OPPOF19",
       "description": "OPPO F19 is officially announced on April 2021.",
-      "price": 280,
+      "price": 123,
       "discountPercentage": 17.91,
       "rating": 4.3,
       "stock": 123,
@@ -67,7 +69,6 @@
         "https://cdn.dummyjson.com/product-images/4/1.jpg",
         "https://cdn.dummyjson.com/product-images/4/2.jpg",
         "https://cdn.dummyjson.com/product-images/4/3.jpg",
-        "https://cdn.dummyjson.com/product-images/4/4.jpg",
         "https://cdn.dummyjson.com/product-images/4/thumbnail.jpg"
       ]
     },
@@ -1838,6 +1839,62 @@
         "https://cdn.dummyjson.com/product-images/100/3.jpg",
         "https://cdn.dummyjson.com/product-images/100/thumbnail.jpg"
       ]
+    },
+    {
+      "title": "Mama Earth MacBook",
+      "description": "Its 100% natural and safe!",
+      "brand": "Apple",
+      "category": "laptops",
+      "price": 899,
+      "discountPercentage": 3,
+      "stock": 5,
+      "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLAabNljKVAd2PRrQC3xYgvQOlXzBq3ctoLiPwrTBn4RTYOMSRlr-16B-K2D7-z1u0gyU&usqp=CAU",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/6/2.jpg",
+        "https://cdn.dummyjson.com/product-images/6/4.jpg",
+        "https://cdn.dummyjson.com/product-images/7/thumbnail.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLAabNljKVAd2PRrQC3xYgvQOlXzBq3ctoLiPwrTBn4RTYOMSRlr-16B-K2D7-z1u0gyU&usqp=CAU"
+      ],
+      "rating": 0,
+      "id": 101,
+      "deleted": true
+    },
+    {
+      "title": "M3 Samsung Universe Ultra",
+      "description": "Its better than Iphone!",
+      "brand": "Samsung",
+      "category": "smartphones",
+      "price": 755,
+      "discountPercentage": 5,
+      "stock": 2,
+      "thumbnail": "https://cdn.dummyjson.com/product-images/3/1.jpg",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/6/2.jpg",
+        "https://cdn.dummyjson.com/product-images/6/4.jpg",
+        "https://cdn.dummyjson.com/product-images/7/thumbnail.jpg",
+        "https://cdn.dummyjson.com/product-images/3/1.jpg"
+      ],
+      "rating": 0,
+      "id": 102,
+      "deleted": true
+    },
+    {
+      "title": "Apple iPhone 14 Pro Max (128 GB) - Space Black",
+      "description": "17.00 cm (6.7-inch) Super Retina XDR display featuring Always-On and ProMotion\nDynamic Island, a magical new way to interact with iPhone\n48MP Main camera for up to 4x greater resolution\nCinematic mode now in 4K Dolby Vision up to 30 fps\nAction mode for smooth, steady, handheld videos\nAll-day battery life and up to 29 hours of video playback\nVital safety technology — Crash Detection can detect a severe car crash and call for help",
+      "brand": "Apple",
+      "category": "smartphones",
+      "price": 1199,
+      "discountPercentage": 5,
+      "stock": 7,
+      "thumbnail": "https://m.media-amazon.com/images/I/31qeR3U2bdL._SY445_SX342_QL70_FMwebp_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/71dKjvLPkAL._SX679_.jpg",
+        "https://m.media-amazon.com/images/I/711yt5-rPLL._SX679_.jpg",
+        "https://m.media-amazon.com/images/I/91wGCiIAniL._SX679_.jpg",
+        "https://m.media-amazon.com/images/I/31qeR3U2bdL._SY445_SX342_QL70_FMwebp_.jpg"
+      ],
+      "rating": 0,
+      "id": 103
     }
   ],
   "categories": [
@@ -2336,37 +2393,22 @@
   ],
   "users": [
     {
-      "name": "Test User",
-      "email": "test@gmail.com",
-      "password": "Test@123",
-      "addresses": [
-        {
-          "name": "Demo44 User",
-          "email": "demo44@gmail.com",
-          "phone": "1234567890",
-          "street": "123V Faasdf asdfasd ",
-          "city": "San Fansico",
-          "state": "Aasdfa f",
-          "pinCode": "123123"
-        },
-        {
-          "name": "Test69 User",
-          "email": "test69@gmail.com",
-          "phone": "1234567890",
-          "street": "123V Faasdf asdfasd ",
-          "city": "WDC",
-          "state": "NY",
-          "pinCode": "32123"
-        }
-      ],
-      "id": 1
-    },
-    {
       "name": "John Doe",
       "email": "johndoe@gmail.com",
       "password": "John@123",
-      "addresses": [],
-      "id": 2
+      "addresses": [
+        {
+          "name": "Amit Singh",
+          "email": "amitsinghmp@testmail.com",
+          "phone": "9834567890",
+          "street": "Cidco Chh. SambhajiNagar",
+          "city": "Chh. SambhajiNagar",
+          "state": "Mahrashtra",
+          "pinCode": "431001"
+        }
+      ],
+      "id": 2,
+      "role": "user"
     },
     {
       "name": "Hemant Singh Parmar",
@@ -2374,34 +2416,35 @@
       "picture": "https://lh3.googleusercontent.com/a/ACg8ocLAR0qC1bLydIVIXVtOfDjCoj66e14s5596O2fi0CszXgJE=s96-c",
       "addresses": [
         {
-          "name": "Test69 User",
-          "email": "test@gmail.com",
-          "phone": "1234567890",
-          "street": "123V Faasdf asdfasd ",
-          "city": "New York",
-          "state": "Aasdfa f",
-          "pinCode": "32123"
-        },
-        {
-          "name": "Demo44 User",
-          "email": "demo44@gmail.com",
-          "phone": "1234567890",
-          "street": "123V Faasdf asdfasd ",
-          "city": "San Fansico",
-          "state": "Aasdfa f",
-          "pinCode": "123123"
-        },
-        {
-          "name": "Anil Jangid",
-          "email": "aniljangid@testmail.com",
+          "name": "Hemant Singh Parmar",
+          "email": "hemantsinghparmar@gmail.com",
           "phone": "9834567890",
-          "street": "Cidco Chh. SambhajiNagar ",
+          "street": "Cidco Chh. SambhajiNagar",
           "city": "Chh. SambhajiNagar",
           "state": "Mahrashtra",
           "pinCode": "431001"
         }
       ],
+      "role": "admin",
       "id": 3
+    },
+    {
+      "name": "Test user",
+      "email": "test@gmail.com",
+      "password": "Test@123",
+      "addresses": [
+        {
+          "name": "Test User",
+          "email": "testuser@gmail.com",
+          "phone": "9834567890",
+          "street": "12 B Symsumg Sarwa",
+          "city": "Narwale",
+          "state": "Uruwa",
+          "pinCode": "903411"
+        }
+      ],
+      "role": "user",
+      "id": 4
     }
   ],
   "cart": [],
@@ -2409,256 +2452,172 @@
     {
       "products": [
         {
-          "title": "Stylish Luxury Digital Watch",
-          "description": "Stylish Luxury Digital Watch For Girls / Women - Led Smart Ladies Watches For Girls",
-          "price": 57,
-          "discountPercentage": 9.03,
-          "rating": 4.55,
-          "stock": 77,
-          "brand": "Luxury Digital",
-          "category": "womens-watches",
-          "thumbnail": "https://cdn.dummyjson.com/product-images/68/thumbnail.webp",
+          "title": "OPPOF19",
+          "description": "OPPO F19 is officially announced on April 2021.",
+          "price": 123,
+          "discountPercentage": 17.91,
+          "rating": 4.3,
+          "stock": 123,
+          "brand": "OPPO",
+          "category": "smartphones",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/4/thumbnail.jpg",
           "images": [
-            "https://cdn.dummyjson.com/product-images/68/1.jpg",
-            "https://cdn.dummyjson.com/product-images/68/2.jpg"
+            "https://cdn.dummyjson.com/product-images/4/1.jpg",
+            "https://cdn.dummyjson.com/product-images/4/2.jpg",
+            "https://cdn.dummyjson.com/product-images/4/3.jpg",
+            "https://cdn.dummyjson.com/product-images/4/thumbnail.jpg"
           ],
           "quantity": 1,
-          "user": 1,
-          "id": 1
-        },
-        {
-          "title": "Kabir Singh Square Sunglass",
-          "description": "Orignal Metal Kabir Singh design 2020 Sunglasses Men Brand Designer Sun Glasses Kabir Singh Square Sunglass",
-          "price": 50,
-          "discountPercentage": 15.6,
-          "rating": 4.62,
-          "stock": 78,
-          "brand": "Designer Sun Glasses",
-          "category": "sunglasses",
-          "thumbnail": "https://cdn.dummyjson.com/product-images/82/thumbnail.jpg",
-          "images": [
-            "https://cdn.dummyjson.com/product-images/82/1.jpg",
-            "https://cdn.dummyjson.com/product-images/82/2.webp",
-            "https://cdn.dummyjson.com/product-images/82/3.jpg",
-            "https://cdn.dummyjson.com/product-images/82/4.jpg",
-            "https://cdn.dummyjson.com/product-images/82/thumbnail.jpg"
-          ],
-          "quantity": 1,
-          "user": 1,
-          "id": 2
+          "user": 3,
+          "id": 3
         }
       ],
-      "totalAmount": 107,
+      "totalAmount": 101,
       "user": {
-        "name": "Test User",
-        "email": "test@gmail.com",
-        "password": "Test@123",
+        "name": "Hemant Singh Parmar",
+        "email": "anmolpawar877@gmail.com",
+        "picture": "https://lh3.googleusercontent.com/a/ACg8ocLAR0qC1bLydIVIXVtOfDjCoj66e14s5596O2fi0CszXgJE=s96-c",
         "addresses": [
           {
-            "name": "Demo44 User",
-            "email": "demo44@gmail.com",
-            "phone": "1234567890",
-            "street": "123V Faasdf asdfasd ",
-            "city": "San Fansico",
-            "state": "Aasdfa f",
-            "pinCode": "123123"
-          },
-          {
-            "name": "Test69 User",
-            "email": "test69@gmail.com",
-            "phone": "1234567890",
-            "street": "123V Faasdf asdfasd ",
-            "city": "WDC",
-            "state": "NY",
-            "pinCode": "32123"
+            "name": "Hemant Singh Parmar",
+            "email": "hemantsinghparmar@gmail.com",
+            "phone": "9834567890",
+            "street": "Cidco Chh. SambhajiNagar",
+            "city": "Chh. SambhajiNagar",
+            "state": "Mahrashtra",
+            "pinCode": "431001"
           }
         ],
-        "id": 1
+        "role": "admin",
+        "id": 3
       },
       "payment": "cash",
       "address": {
-        "name": "Demo44 User",
-        "email": "demo44@gmail.com",
-        "phone": "1234567890",
-        "street": "123V Faasdf asdfasd ",
-        "city": "San Fansico",
-        "state": "Aasdfa f",
-        "pinCode": "123123"
+        "name": "Hemant Singh Parmar",
+        "email": "hemantsinghparmar@gmail.com",
+        "phone": "9834567890",
+        "street": "Cidco Chh. SambhajiNagar",
+        "city": "Chh. SambhajiNagar",
+        "state": "Mahrashtra",
+        "pinCode": "431001"
       },
-      "status": "pending",
+      "status": "delivered",
       "id": 1
     },
     {
       "products": [
         {
-          "title": "Samsung Galaxy Book",
-          "description": "Samsung Galaxy Book S (2020) Laptop With Intel Lakefield Chip, 8GB of RAM Launched",
-          "price": 1499,
-          "discountPercentage": 4.15,
-          "rating": 4.25,
-          "stock": 50,
-          "brand": "Samsung",
+          "title": "Infinix INBOOK",
+          "description": "Infinix Inbook X1 Ci3 10th 8GB 256GB 14 Win10 Grey – 1 Year Warranty",
+          "price": 1099,
+          "discountPercentage": 11.83,
+          "rating": 4.54,
+          "stock": 96,
+          "brand": "Infinix",
           "category": "laptops",
-          "thumbnail": "https://cdn.dummyjson.com/product-images/7/thumbnail.jpg",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/9/thumbnail.jpg",
           "images": [
-            "https://cdn.dummyjson.com/product-images/7/1.jpg",
-            "https://cdn.dummyjson.com/product-images/7/2.jpg",
-            "https://cdn.dummyjson.com/product-images/7/3.jpg",
-            "https://cdn.dummyjson.com/product-images/7/thumbnail.jpg"
+            "https://cdn.dummyjson.com/product-images/9/1.jpg",
+            "https://cdn.dummyjson.com/product-images/9/2.png",
+            "https://cdn.dummyjson.com/product-images/9/3.png",
+            "https://cdn.dummyjson.com/product-images/9/4.jpg",
+            "https://cdn.dummyjson.com/product-images/9/thumbnail.jpg"
           ],
-          "quantity": 1,
-          "user": 1,
+          "quantity": 2,
+          "user": 4,
           "id": 1
         }
       ],
-      "totalAmount": 1499,
+      "totalAmount": 1938,
       "user": {
-        "name": "Test User",
+        "name": "Test user",
         "email": "test@gmail.com",
         "password": "Test@123",
         "addresses": [
           {
-            "name": "Demo44 User",
-            "email": "demo44@gmail.com",
-            "phone": "1234567890",
-            "street": "123V Faasdf asdfasd ",
-            "city": "San Fansico",
-            "state": "Aasdfa f",
-            "pinCode": "123123"
-          },
-          {
-            "name": "Test69 User",
-            "email": "test69@gmail.com",
-            "phone": "1234567890",
-            "street": "123V Faasdf asdfasd ",
-            "city": "WDC",
-            "state": "NY",
-            "pinCode": "32123"
+            "name": "Test User",
+            "email": "testuser@gmail.com",
+            "phone": "9834567890",
+            "street": "12 B Symsumg Sarwa",
+            "city": "Narwale",
+            "state": "Uruwa",
+            "pinCode": "903411"
           }
         ],
-        "id": 1
+        "role": "user",
+        "id": 4
       },
       "payment": "cash",
       "address": {
-        "name": "Test69 User",
-        "email": "test69@gmail.com",
-        "phone": "1234567890",
-        "street": "123V Faasdf asdfasd ",
-        "city": "WDC",
-        "state": "NY",
-        "pinCode": "32123"
+        "name": "Test User",
+        "email": "testuser@gmail.com",
+        "phone": "9834567890",
+        "street": "12 B Symsumg Sarwa",
+        "city": "Narwale",
+        "state": "Uruwa",
+        "pinCode": "903411"
       },
-      "status": "pending",
+      "status": "dispatched",
       "id": 2
     },
     {
       "products": [
         {
-          "title": "Sneakers Joggers Shoes",
-          "description": "Gender: Men , Colors: Same as DisplayedCondition: 100% Brand New",
+          "title": "Oil Free Moisturizer 100ml",
+          "description": "Dermive Oil Free Moisturizer with SPF 20 is specifically formulated with ceramides, hyaluronic acid & sunscreen.",
           "price": 40,
-          "discountPercentage": 12.57,
-          "rating": 4.38,
-          "stock": 6,
-          "brand": "Sneakers",
-          "category": "mens-shoes",
-          "thumbnail": "https://cdn.dummyjson.com/product-images/56/thumbnail.jpg",
+          "discountPercentage": 13.1,
+          "rating": 4.56,
+          "stock": 88,
+          "brand": "Dermive",
+          "category": "skincare",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/18/thumbnail.jpg",
           "images": [
-            "https://cdn.dummyjson.com/product-images/56/1.jpg",
-            "https://cdn.dummyjson.com/product-images/56/2.jpg",
-            "https://cdn.dummyjson.com/product-images/56/3.jpg",
-            "https://cdn.dummyjson.com/product-images/56/4.jpg",
-            "https://cdn.dummyjson.com/product-images/56/5.jpg",
-            "https://cdn.dummyjson.com/product-images/56/thumbnail.jpg"
+            "https://cdn.dummyjson.com/product-images/18/1.jpg",
+            "https://cdn.dummyjson.com/product-images/18/2.jpg",
+            "https://cdn.dummyjson.com/product-images/18/3.jpg",
+            "https://cdn.dummyjson.com/product-images/18/4.jpg",
+            "https://cdn.dummyjson.com/product-images/18/thumbnail.jpg"
           ],
           "quantity": 1,
-          "user": 1,
+          "user": 4,
           "id": 1
         }
       ],
-      "totalAmount": 40,
+      "totalAmount": 35,
       "user": {
-        "name": "Test User",
+        "name": "Test user",
         "email": "test@gmail.com",
         "password": "Test@123",
         "addresses": [
           {
-            "name": "Demo44 User",
-            "email": "demo44@gmail.com",
-            "phone": "1234567890",
-            "street": "123V Faasdf asdfasd ",
-            "city": "San Fansico",
-            "state": "Aasdfa f",
-            "pinCode": "123123"
-          },
-          {
-            "name": "Test69 User",
-            "email": "test69@gmail.com",
-            "phone": "1234567890",
-            "street": "123V Faasdf asdfasd ",
-            "city": "WDC",
-            "state": "NY",
-            "pinCode": "32123"
+            "name": "Test User",
+            "email": "testuser@gmail.com",
+            "phone": "9834567890",
+            "street": "12 B Symsumg Sarwa",
+            "city": "Narwale",
+            "state": "Uruwa",
+            "pinCode": "903411"
           }
         ],
-        "id": 1
+        "role": "user",
+        "id": 4
       },
       "payment": "cash",
       "address": {
-        "name": "Demo44 User",
-        "email": "demo44@gmail.com",
-        "phone": "1234567890",
-        "street": "123V Faasdf asdfasd ",
-        "city": "San Fansico",
-        "state": "Aasdfa f",
-        "pinCode": "123123"
+        "name": "Test User",
+        "email": "testuser@gmail.com",
+        "phone": "9834567890",
+        "street": "12 B Symsumg Sarwa",
+        "city": "Narwale",
+        "state": "Uruwa",
+        "pinCode": "903411"
       },
       "status": "pending",
       "id": 3
     },
     {
       "products": [
-        {
-          "title": "MacBook Pro",
-          "description": "MacBook Pro 2021 with mini-LED display may launch between September, November",
-          "price": 1749,
-          "discountPercentage": 11.02,
-          "rating": 4.57,
-          "stock": 83,
-          "brand": "Apple",
-          "category": "laptops",
-          "thumbnail": "https://cdn.dummyjson.com/product-images/6/thumbnail.png",
-          "images": [
-            "https://cdn.dummyjson.com/product-images/6/1.png",
-            "https://cdn.dummyjson.com/product-images/6/2.jpg",
-            "https://cdn.dummyjson.com/product-images/6/3.png",
-            "https://cdn.dummyjson.com/product-images/6/4.jpg"
-          ],
-          "quantity": 1,
-          "user": 3,
-          "id": 1
-        },
-        {
-          "title": "Pubg Printed Graphic T-Shirt",
-          "description": "Product Description Features: 100% Ultra soft Polyester Jersey. Vibrant & colorful printing on front. Feels soft as cotton without ever cracking",
-          "price": 46,
-          "discountPercentage": 16.44,
-          "rating": 4.62,
-          "stock": 136,
-          "brand": "The Warehouse",
-          "category": "mens-shirts",
-          "thumbnail": "https://cdn.dummyjson.com/product-images/54/thumbnail.jpg",
-          "images": [
-            "https://cdn.dummyjson.com/product-images/54/1.jpg",
-            "https://cdn.dummyjson.com/product-images/54/2.jpg",
-            "https://cdn.dummyjson.com/product-images/54/3.jpg",
-            "https://cdn.dummyjson.com/product-images/54/4.jpg",
-            "https://cdn.dummyjson.com/product-images/54/thumbnail.jpg"
-          ],
-          "quantity": 1,
-          "user": 3,
-          "id": 2
-        },
         {
           "title": "Leather Strap Skeleton Watch",
           "description": "Leather Strap Skeleton Watch for Men - Stylish and Latest Design",
@@ -2675,56 +2634,39 @@
             "https://cdn.dummyjson.com/product-images/64/3.jpg",
             "https://cdn.dummyjson.com/product-images/64/thumbnail.jpg"
           ],
-          "quantity": 1,
-          "user": 3,
-          "id": 3
+          "quantity": 3,
+          "user": 2,
+          "id": 1
         }
       ],
-      "totalAmount": 1841,
+      "totalAmount": 123,
       "user": {
-        "name": "Hemant Singh Parmar",
-        "email": "anmolpawar877@gmail.com",
-        "picture": "https://lh3.googleusercontent.com/a/ACg8ocLAR0qC1bLydIVIXVtOfDjCoj66e14s5596O2fi0CszXgJE=s96-c",
+        "name": "John Doe",
+        "email": "johndoe@gmail.com",
+        "password": "John@123",
         "addresses": [
           {
-            "name": "Test69 User",
-            "email": "test@gmail.com",
-            "phone": "1234567890",
-            "street": "123V Faasdf asdfasd ",
-            "city": "New York",
-            "state": "Aasdfa f",
-            "pinCode": "32123"
-          },
-          {
-            "name": "Demo44 User",
-            "email": "demo44@gmail.com",
-            "phone": "1234567890",
-            "street": "123V Faasdf asdfasd ",
-            "city": "San Fansico",
-            "state": "Aasdfa f",
-            "pinCode": "123123"
-          },
-          {
-            "name": "Anil Jangid",
-            "email": "aniljangid@testmail.com",
+            "name": "Amit Singh",
+            "email": "amitsinghmp@testmail.com",
             "phone": "9834567890",
-            "street": "Cidco Chh. SambhajiNagar ",
+            "street": "Cidco Chh. SambhajiNagar",
             "city": "Chh. SambhajiNagar",
             "state": "Mahrashtra",
             "pinCode": "431001"
           }
         ],
-        "id": 3
+        "id": 2,
+        "role": "user"
       },
       "payment": "cash",
       "address": {
-        "name": "Test69 User",
-        "email": "test@gmail.com",
-        "phone": "1234567890",
-        "street": "123V Faasdf asdfasd ",
-        "city": "New York",
-        "state": "Aasdfa f",
-        "pinCode": "32123"
+        "name": "Amit Singh",
+        "email": "amitsinghmp@testmail.com",
+        "phone": "9834567890",
+        "street": "Cidco Chh. SambhajiNagar",
+        "city": "Chh. SambhajiNagar",
+        "state": "Mahrashtra",
+        "pinCode": "431001"
       },
       "status": "pending",
       "id": 4
@@ -2732,72 +2674,55 @@
     {
       "products": [
         {
-          "title": "Kabir Singh Square Sunglass",
-          "description": "Orignal Metal Kabir Singh design 2020 Sunglasses Men Brand Designer Sun Glasses Kabir Singh Square Sunglass",
-          "price": 50,
-          "discountPercentage": 15.6,
-          "rating": 4.62,
-          "stock": 78,
-          "brand": "Designer Sun Glasses",
-          "category": "sunglasses",
-          "thumbnail": "https://cdn.dummyjson.com/product-images/82/thumbnail.jpg",
+          "title": "American Vintage Wood Pendant Light",
+          "description": "American Vintage Wood Pendant Light Farmhouse Antique Hanging Lamp Lampara Colgante",
+          "price": 46,
+          "discountPercentage": 8.84,
+          "rating": 4.32,
+          "stock": 138,
+          "brand": "Ifei Home",
+          "category": "lighting",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/99/thumbnail.jpg",
           "images": [
-            "https://cdn.dummyjson.com/product-images/82/1.jpg",
-            "https://cdn.dummyjson.com/product-images/82/2.webp",
-            "https://cdn.dummyjson.com/product-images/82/3.jpg",
-            "https://cdn.dummyjson.com/product-images/82/4.jpg",
-            "https://cdn.dummyjson.com/product-images/82/thumbnail.jpg"
+            "https://cdn.dummyjson.com/product-images/99/1.jpg",
+            "https://cdn.dummyjson.com/product-images/99/2.jpg",
+            "https://cdn.dummyjson.com/product-images/99/3.jpg",
+            "https://cdn.dummyjson.com/product-images/99/4.jpg",
+            "https://cdn.dummyjson.com/product-images/99/thumbnail.jpg"
           ],
-          "quantity": 1,
-          "user": 3,
+          "quantity": 3,
+          "user": 2,
           "id": 1
         }
       ],
-      "totalAmount": 50,
+      "totalAmount": 126,
       "user": {
-        "name": "Hemant Singh Parmar",
-        "email": "anmolpawar877@gmail.com",
-        "picture": "https://lh3.googleusercontent.com/a/ACg8ocLAR0qC1bLydIVIXVtOfDjCoj66e14s5596O2fi0CszXgJE=s96-c",
+        "name": "John Doe",
+        "email": "johndoe@gmail.com",
+        "password": "John@123",
         "addresses": [
           {
-            "name": "Test69 User",
-            "email": "test@gmail.com",
-            "phone": "1234567890",
-            "street": "123V Faasdf asdfasd ",
-            "city": "New York",
-            "state": "Aasdfa f",
-            "pinCode": "32123"
-          },
-          {
-            "name": "Demo44 User",
-            "email": "demo44@gmail.com",
-            "phone": "1234567890",
-            "street": "123V Faasdf asdfasd ",
-            "city": "San Fansico",
-            "state": "Aasdfa f",
-            "pinCode": "123123"
-          },
-          {
-            "name": "Anil Jangid",
-            "email": "aniljangid@testmail.com",
+            "name": "Amit Singh",
+            "email": "amitsinghmp@testmail.com",
             "phone": "9834567890",
-            "street": "Cidco Chh. SambhajiNagar ",
+            "street": "Cidco Chh. SambhajiNagar",
             "city": "Chh. SambhajiNagar",
             "state": "Mahrashtra",
             "pinCode": "431001"
           }
         ],
-        "id": 3
+        "id": 2,
+        "role": "user"
       },
-      "payment": "card",
+      "payment": "cash",
       "address": {
-        "name": "Demo44 User",
-        "email": "demo44@gmail.com",
-        "phone": "1234567890",
-        "street": "123V Faasdf asdfasd ",
-        "city": "San Fansico",
-        "state": "Aasdfa f",
-        "pinCode": "123123"
+        "name": "Amit Singh",
+        "email": "amitsinghmp@testmail.com",
+        "phone": "9834567890",
+        "street": "Cidco Chh. SambhajiNagar",
+        "city": "Chh. SambhajiNagar",
+        "state": "Mahrashtra",
+        "pinCode": "431001"
       },
       "status": "pending",
       "id": 5

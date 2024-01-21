@@ -1,19 +1,21 @@
 /* eslint-disable no-unused-vars */
 import { useSelector, useDispatch } from 'react-redux'
-import { getOrderAsync, selectOrder } from '../../orders/orderSlice';
+import { selectOrders } from '../../orders/orderSlice';
 import { useEffect,useState } from 'react';
 import { Link } from 'react-router-dom';
 import { selectLoggedInUser } from '../../auth/authSlice';
+import { fetchLoggedInUserOrderAsync } from '../userSlice';
+import { discountedPrice } from '../../../app/constants';
 
 
 const MyOrders = () => {
-const orders = useSelector(selectOrder);
+const orders = useSelector(selectOrders);
 const dispatch = useDispatch();
 const user = useSelector(selectLoggedInUser);
 // you can only use useSelector once the function is dispatched!
 
 useEffect(() => {
-  dispatch(getOrderAsync(user.id));
+  dispatch(fetchLoggedInUserOrderAsync(user.id));
 }, [dispatch, user.id]);
 
   return (
@@ -48,7 +50,7 @@ useEffect(() => {
                             <h3>
                               <a href={product.href}>{product.title}</a>
                             </h3>
-                            <p className="ml-4"> ${product.price}</p>
+                            <p className="ml-4"> ₹ {discountedPrice(product)}</p>
                           </div>
                           <p className="mt-1 text-sm text-gray-500">
                             {product.color}
@@ -72,7 +74,7 @@ useEffect(() => {
             </div>
             <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
               <div className="flex justify-between px-4 text-base font-medium text-gray-900">
-                <p>Billing Amount : ${order.totalAmount}</p>
+                <p>Billing Amount : ₹ {order.totalAmount}</p>
                 <p>Payment Method: {order.payment}</p>
               </div>
             </div>

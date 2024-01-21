@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {CheckGoogleUserExist, GoogleAuth, UpdateUser, checkUser, createUser } from './authAPI';
+import {CheckGoogleUserExist, GoogleAuth, UpdateUser, checkUser, createUser, deleteUser } from './authAPI';
 
 const initialState = {
   loggedInUser: null,
@@ -43,6 +43,21 @@ export const GoogleAuthAsync = createAsyncThunk(
     }
   }
 )
+export const deleteUserAsync = createAsyncThunk(
+  'user/deleteUser',
+  async (id) => {
+      try {
+          const response = await deleteUser(id);
+          console.log("Deleted user:", response);
+          return response.data;
+      } catch (error) {
+          console.error("Error in deleteUserAsync thunk", error);
+          throw error;
+      }
+  }
+);
+
+
 export const counterSlice = createSlice({
   name: 'user',
   initialState,
@@ -99,6 +114,18 @@ export const counterSlice = createSlice({
       .addCase(updateUserAsync.rejected, (state, action) => {
         state.status = 'idle';
         state.loggedInUser.error = action.error;
+      })
+      .addCase(deleteUserAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(deleteUserAsync.fulfilled,(state)=>{
+        state.status = 'idle';
+        state.loggedInUser =null;
+      })
+      .addCase(deleteUserAsync.rejected,(state,action)=>{
+        state.status = 'idle';
+        state.error = action.error;
+        console.log(action.error);
       })
   },
 });

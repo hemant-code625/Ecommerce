@@ -4,6 +4,7 @@ import { selectAllCart } from './CartSlice';
 import {
   updateCartItemAsync,
   deleteCartItemAsync } from './CartSlice';
+import { discountedPrice } from '../../app/constants';
 
 const Cart = () => {
   let products = useSelector(selectAllCart);
@@ -17,7 +18,7 @@ const Cart = () => {
   }
   const dispatch = useDispatch();
   // here in reduce function we have a callback function with accumulator as its first argument and current value of each item in the array as second argument. This function also has initial value as second argument which is 0 here.
-  const totalAmount = products.reduce((amount, product)=> amount + product.price * product.quantity, 0);
+  const totalAmount = products.reduce((amount, product)=> amount + discountedPrice(product) * product.quantity, 0);
   const totalItems = products.reduce((total, product)=> total + product.quantity, 0);
 
   const handleChange=(e, product) =>{
@@ -51,7 +52,7 @@ const Cart = () => {
                           <h3>
                             <a href={product.href}>{product.title}</a>
                           </h3>
-                          <p className="ml-4">{product.price}</p>
+                          <p className="ml-4">₹ {discountedPrice(product)}</p>
                         </div>
                         <p className="mt-1 text-sm text-gray-500">
                           {product.color}
@@ -97,7 +98,7 @@ const Cart = () => {
             </div>
             <div className="flex justify-between px-4 py-2 text-base font-medium text-gray-900">
               <p>Subtotal</p>
-              <p>$ {totalAmount}</p>
+              <p> ₹ {totalAmount}</p>
             </div>
             
             <p className="mt-0.5 px-4 text-sm text-gray-500">

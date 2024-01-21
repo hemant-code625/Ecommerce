@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createOrder, getOrder } from './orderAPI';
+import { createOrder, fetchAllOrder, updateOrder } from './orderAPI';
 
 const initialState ={
   orders:[],
   status:'idle',
   error:null,
   currentOrder: null,
+  totalOrders:0,
 }
 export const createOrderAsync = createAsyncThunk(
   'order/createOrder',
@@ -14,21 +15,29 @@ export const createOrderAsync = createAsyncThunk(
     return response;
   }
 )
-export const getOrderAsync = createAsyncThunk(     // remove this thunk instead fetch orders in user slice
-  'order/getOrder',
-  async (id) => {
-    const response = await getOrder(id);
+
+export const fetchAllOrdersAsync = createAsyncThunk(
+  'order/fetchAllOrders',
+  async () => {
+    const response = await fetchAllOrder();
     return response;
   }
 )
-
+export const updateOrderAsync = createAsyncThunk(
+  'order/updateOrder',
+  async(update)=>{
+    const response = await updateOrder(update);
+    const obj = await response.json();
+    return obj;
+  }
+)
 const orderSlice = createSlice({
   name:'order',
   initialState,
   reducers:{
-    increment:(state)=>{
-      state.value += 1;
-    },
+    resetOrder: (state)=>{
+      state.currentOrder = null;
+    }
   },
   extraReducers:(builder)=>{
     builder
@@ -45,15 +54,26 @@ const orderSlice = createSlice({
         state.status = 'idle';
         state.error = action.error.message;
       })
-      .addCase(getOrderAsync.pending,(state)=>{
+      .addCase(fetchAllOrdersAsync.pending,(state)=>{
         state.status = 'loading';
       })
-      .addCase(getOrderAsync.fulfilled,(state,action)=>{
+      .addCase(fetchAllOrdersAsync.fulfilled,(state,action)=>{
         state.status = 'idle';
-        console.log("action payload:",action.payload);
+        state.orders = action.payload;
+        state.totalOrders = action.payload.totalOrders;
+      })
+      .addCase(fetchAllOrdersAsync.rejected,(state,action)=>{
+        state.status = 'idle';
+        state.error = action.error.message;
+      })
+      .addCase(updateOrderAsync.pending,(state)=>{
+        state.status = 'loading';
+      })
+      .addCase(updateOrderAsync.fulfilled,(state,action)=>{
+        state.status = 'idle';
         state.currentOrder = action.payload;
       })
-      .addCase(getOrderAsync.rejected,(state,action)=>{
+      .addCase(updateOrderAsync.rejected,(state,action)=>{
         state.status = 'idle';
         state.error = action.error.message;
       })
@@ -61,5 +81,7 @@ const orderSlice = createSlice({
 })
 
 export default orderSlice.reducer;
-export const selectOrder = (state) => state.orders;
+export const selectOrders = (state) => state.orders;
 export const selectOrderStatus = (state) => state.order && state.order.currentOrder;
+export const resetOrder = orderSlice.actions.resetOrder;
+export const selectTotalOrders = (state) => state.orders.totalOrders;

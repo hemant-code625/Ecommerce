@@ -21,7 +21,35 @@ export function fetchProductById(id) {
   }
   );
 }
+export const createProduct = async(data)=>{
+  const response = await fetch(`${VITE_REACT_APP_API_HOST}/products`,{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json'
+    },
+    body:JSON.stringify(data)
+  })
+  const res = await response.json();
+  console.log("created product: ", res);
+  return {res};
+}
 
+export const updateProduct = async( update)=>{
+  try {
+    const response = await fetch(`${VITE_REACT_APP_API_HOST}/products/${update.id}`,{
+      method:'PATCH',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify(update)
+    })
+    const res = await response.json();
+    console.log("updated product: ", res);
+    return {res};
+  } catch (error) {
+    console.log(error);
+  }
+}
 export function fetchProductsByFilters(filter,sort,pagination) {
   // filter = {"category":["smartphone","laptops"]}
   // sort = {_sort:"price",_order="desc"}

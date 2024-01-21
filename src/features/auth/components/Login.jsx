@@ -30,6 +30,7 @@ export default function Login() {
         picture: decodedToken.picture,
         addresses:[],
         id: parseInt(decodedToken.sub),        // this id is dynamic and its of no use for us
+        role: 'user'
       };
       delete user.id;   // database will generate the id
       dispatch(GoogleAuthAsync(user)).then(() => {
@@ -113,7 +114,7 @@ export default function Login() {
                 </label>
                 <div className="text-sm">
                   <a
-                    href="#"
+                    href="/forgot-password"
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
                   >
                     Forgot password?

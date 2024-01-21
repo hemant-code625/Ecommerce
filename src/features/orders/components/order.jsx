@@ -1,13 +1,14 @@
 import { useEffect } from "react";
-import { selectOrder } from "../orderSlice";
+import { selectOrders } from "../orderSlice";
 import { Link } from "react-router-dom";
 
 import { resetCartAsync } from "../../cart/CartSlice";
 import {selectLoggedInUser} from "../../auth/authSlice"
 import { useSelector, useDispatch } from 'react-redux';
+import { discountedPrice } from "../../../app/constants";
 
 const Order = () => {
-  const orders = useSelector(selectOrder);
+  const orders = useSelector(selectOrders);
   const products = orders.currentOrder.products;
   const address = orders.currentOrder.address;
   const user = useSelector(selectLoggedInUser)
@@ -52,7 +53,7 @@ const Order = () => {
                             <h3>
                               <a href={product.href}>{product.title}</a>
                             </h3>
-                            <p className="ml-4"> ${product.price}</p>
+                            <p className="ml-4"> ₹ {discountedPrice(product)}</p>
                           </div>
                           <p className="mt-1 text-sm text-gray-500">
                             {product.color}
@@ -76,7 +77,7 @@ const Order = () => {
             </div>
             <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
               <div className="flex justify-between px-4 text-base font-medium text-gray-900">
-                <p>Billing Amount : ${orders.currentOrder.totalAmount}</p>
+                <p>Billing Amount : ₹ {orders.currentOrder.totalAmount}</p>
                 <p>Payment Method: {orders.currentOrder.payment}</p>
               </div>
             </div>

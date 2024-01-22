@@ -13,6 +13,7 @@ export const AddToCart = async(item) => {
   
 }
 
+
 export const FetchCartByUserId = async(userId) => {
   const response = await fetch(`${VITE_REACT_APP_API_HOST}/cart?user=${userId}`);
   const data = await response.json();

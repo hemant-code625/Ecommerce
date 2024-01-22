@@ -10,7 +10,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
+import logo from '../../assets/CartLogo.svg'
 import { selectLoggedInUser } from '../auth/authSlice';
 import { selectAllCart } from '../cart/CartSlice';
 
@@ -53,7 +53,7 @@ function Navbar({ children }) {
                       <Link to="/">
                         <img
                           className="h-8 w-8"
-                          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                          src={logo}
                           alt="Your Company"
                         />
                       </Link>

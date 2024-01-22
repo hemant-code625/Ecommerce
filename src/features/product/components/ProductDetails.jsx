@@ -4,10 +4,12 @@ import { RadioGroup } from '@headlessui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductByIdAsync, selectProductById } from '../ProductSlice.js';
 import { useParams } from 'react-router-dom';
-import { addToCartAsync } from '../../cart/CartSlice.js';
+import { addToCartAsync, selectAllCart } from '../../cart/CartSlice.js';
 import { selectLoggedInUser } from '../../auth/authSlice';
 import { discountedPrice } from '../../../app/constants.js';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+  
 // TODO: In server data we will add colors, sizes , highlights. to each product
 
 const colors = [
@@ -46,22 +48,27 @@ export default function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
   const user = useSelector(selectLoggedInUser)
   const product = useSelector(selectProductById);
+  const items = useSelector(selectAllCart)
   const dispatch = useDispatch();
   const params = useParams();
-  // console.log("User:", user);
-  // console.log("Google User:", googleUser);
-
+  
   const loggedInUser = user;  
   const handleCart = (e) => {
     e.preventDefault();
-    if(loggedInUser){
+    if(items.findIndex((item)=> item.productId === product.id) < 0){
       const newItem = {
         ...product,
         quantity: 1,
+        productId: product.id,
         user: loggedInUser.id,
       };
       delete newItem['id'];
       dispatch(addToCartAsync(newItem));
+      // TODO: It will be based on the server response
+      toast.success("Added to the cart");
+    }else{
+      toast.error("Already added to the cart");
+
     }
   };
   
@@ -72,6 +79,7 @@ export default function ProductDetail() {
 
   return (
     <div className="bg-white">
+    <ToastContainer />
       {product && (
         <div className="pt-6">
           <nav aria-label="Breadcrumb">

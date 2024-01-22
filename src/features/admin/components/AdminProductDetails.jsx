@@ -147,7 +147,7 @@ export default function AdminProductDetail() {
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
               <p className="text-3xl tracking-tight text-gray-900">
-              ₹ {discountedPrice(product) && console.log("your are in admin's product details page")} 
+              ₹ {discountedPrice(product)} 
               </p>
 
               {/* Reviews */}

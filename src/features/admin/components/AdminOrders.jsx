@@ -24,7 +24,7 @@ const AdminOrders = () => {
   const [editableOrderId, setEditableOrderId] = useState(-1);
   const [sort, setSort] = useState({});
   const orders = ordersObj.orders;
-  console.log("orders in admin: ", orders);
+
   const handleEdit = (order) => {
     setEditableOrderId(order.id);
   };

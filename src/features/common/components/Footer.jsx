@@ -3,7 +3,7 @@ import logo from '../../../assets/CartLogo.svg';
 const Footer = () => {
   return (
     <>
-<footer className="sticky top-full bg-white dark:bg-gray-900 ">
+<footer className="bottom-0 w-full bg-white dark:bg-gray-900 ">
   <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8 -pt-8">
     <div className="md:flex md:justify-between">
       <div className="mb-6 md:mb-0">
@@ -14,7 +14,7 @@ const Footer = () => {
             alt="eCart Logo"
           />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            eCart
+            eCarts
           </span>
         </a>
       </div>
@@ -66,7 +66,7 @@ const Footer = () => {
       <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
         © 2023{" "}
         <a href="#" className="hover:underline">
-          eCart ™
+          eCarts ™
         </a>
         . All Rights Reserved.
       </span>

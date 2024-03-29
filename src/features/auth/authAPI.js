@@ -1,20 +1,24 @@
 // import process from 'process';
 // const VITE_REACT_APP_API_HOST = process.env.SERVER_HOST;
 const VITE_REACT_APP_API_HOST = import.meta.env.VITE_REACT_APP_API_HOST;
+
+
 export const createUser = async (userData) => {
-    const respone = await fetch(`${VITE_REACT_APP_API_HOST}/users`, {
-        method: 'POST',
-        headers: {
-            'content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-    })
-    if (respone.ok) {
-        // ToDo: On server will pass only relevant data
-        const data = await respone.json();
-        return data;
-    } else {
-        throw new Error('Something went wrong')
+    try {
+        const respone = await fetch(`${VITE_REACT_APP_API_HOST}/auth/signup`, {
+            method: 'POST',
+            headers: {
+                'content-Type': 'application/json',
+            },
+            body: JSON.stringify({userData}),
+        })
+        if (respone.ok) {
+            // ToDo: On server will pass only relevant data
+            const data = await respone.json();
+            return data;
+        }
+    } catch (error) {
+        console.error("Error in createUser function", error);
     }
 }
 export const updateRole = async (userId, newRole) => {           // added role manually in the db for now
@@ -35,71 +39,57 @@ export const updateRole = async (userId, newRole) => {           // added role m
 };
 
 export const GoogleAuth = async (userData) => {
-    const response = await fetch(`${VITE_REACT_APP_API_HOST}/users`, {
+    const response = await fetch(`${VITE_REACT_APP_API_HOST}/auth/google`, {
         method: 'POST',
         headers: {
             'content-Type': 'application/json',
         },
-        body: JSON.stringify(userData),
+        body: JSON.stringify({ userData }),
     });
     
     if (response.ok) {
-         userData = { ...userData, addresses: [], role: "user" };
-        return await userData;
+        return await response.json();
     } else {
         throw new Error('Something went wrong');
     }
 }
 
-export const CheckGoogleUserExist = async (userData) => {
-    const respone = await fetch(`${VITE_REACT_APP_API_HOST}/users`)
-    const res = await respone.json();
-    if (res && res.length > 0) {
-        for (let i =0 ; i<res.length; i++){
-            if (res[i].email === userData.email){
-                let data = await res[i];
-                return data;
-            }
-        }
-    }
-    else{
-        throw new Error('Error in checking user');
-    }
-}
+export const loginUser = async (userInfo) => {
 
-export const checkUser = async (userInfo) => {
     const email = userInfo.email;
-    const password = userInfo.password;
+    const password = userInfo.password || userInfo.googleId;     // googleId is used as password for google users
+    var isGoogleUser = userInfo.googleId ? true : false;
+  
     try {
-      const response = await fetch(`${VITE_REACT_APP_API_HOST}/users?email=${email}`);
-      const data = await response.json();
-      if (data && data.length > 0 && data[0].password === password) {
-        return data[0];
-      }
-      else if (data && data.length > 0 && data[0].password !== password){
-        console.log("Wrong credentials");
-        return { message: "Wrong credentials" };
-      }
-      else {
-        return { message: "user Not Found" };
+      const response = await fetch(`${VITE_REACT_APP_API_HOST}/auth/login`,{
+        method:"POST",
+        headers:{
+          'content-Type':'application/json',
+        },
+        body:JSON.stringify({email,password, isGoogleUser}),
+      });
+      if(response.ok){
+        const data = await response.json();
+        console.log(data)
+        return data;
       }
     }
     catch (error) {
-        return { message: "Ops! Server Error!" };
+        return { message: "Ops! Server Error while Loggin in!" , error};
     }
   };
-  export const fetchGoogleAddresses = async (id) => {
-    const response = await fetch(`${VITE_REACT_APP_API_HOST}/users/${id}`, {
-      method: 'GET',
-      headers: {
-        'content-Type':'application/json',
-      },
-    });
+//   export const fetchGoogleAddresses = async (id) => {
+//     const response = await fetch(`${VITE_REACT_APP_API_HOST}/users/${id}`, {
+//       method: 'GET',
+//       headers: {
+//         'content-Type':'application/json',
+//       },
+//     });
   
-    const data = await response.json();
-    // Extract and return the addresses from the API response
-    return data.addresses || [];
-  };
+//     const data = await response.json();
+//     // Extract and return the addresses from the API response
+//     return data.addresses || [];
+//   };
   export const UpdateUser = async (data) => {
     const respone = await fetch(`${VITE_REACT_APP_API_HOST}/users/${data.id}`,{
         method:'PATCH',

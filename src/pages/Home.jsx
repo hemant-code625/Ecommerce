@@ -18,6 +18,7 @@ const Home = () => {
   
   return (
     <>
+    {/* create a new customized Navbar */}
       <Navbar>
         <Product/>
       </Navbar> 

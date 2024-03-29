@@ -1,8 +1,7 @@
 /* eslint-disable no-useless-escape */
 import { useSelector, useDispatch } from "react-redux";
-import { GoogleAuthAsync, selectError, selectLoggedInUser } from "../authSlice";
+import {GoogleAuthAsync, loginUserAsync, selectError, selectLoggedInUser } from "../authSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { checkUserAsync } from "../authSlice";
 import { useForm } from "react-hook-form";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
@@ -29,9 +28,7 @@ export default function Login() {
         name: decodedToken.name,
         email: decodedToken.email,
         picture: decodedToken.picture,
-        addresses: [],
         googleId: parseInt(decodedToken.sub), 
-        role: "user",
       };
       dispatch(GoogleAuthAsync(user))
         .then(() => {
@@ -69,7 +66,7 @@ export default function Login() {
             noValidate
             onSubmit={handleSubmit((data) => {
               dispatch(
-                checkUserAsync({ email: data.email, password: data.password })
+                loginUserAsync({ email: data.email, password: data.password })
               );
             })}
             className="space-y-6"

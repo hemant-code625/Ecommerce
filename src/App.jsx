@@ -28,11 +28,11 @@ function App() {
     <GoogleOAuthProvider clientId={`${VITE_GOOGLE_CLIENT_ID}`}>
       <Router>
         <Routes>
-          <Route path='/' element={<Protected > <Home/> </Protected> } /> 
-          <Route path='/cart' element={<Protected ><CartPage/> </Protected>} />
+          <Route path='/' element={< > <Home/> </> } /> 
+          <Route path='/product-detail/:id' element={< ><ProductDetailPage/></>} />
+          <Route path='/cart' element={<Protected><CartPage/> </Protected>} />
           <Route path='/login' element={<Login/>} />
           <Route path='/signup' element={<SignUp/>} />
-          <Route path='/product-detail/:id' element={<Protected ><ProductDetailPage/></Protected>} />
           <Route path='/checkout' element={<Protected> <Checkout/></Protected>} />
           <Route path='/order-success' element={<Protected> <OrderSuccessPage/></Protected>} />
           <Route path='/profile' element={<Protected> <ProfilePage/></Protected>} />

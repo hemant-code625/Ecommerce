@@ -49,6 +49,8 @@ export default function Login() {
     if(token){
       const userToken = jwtDecode(token).user;
       console.log(userToken);
+      // in the homePage when user comes to the site we will check if token is present in local storage
+      // if present we will dispatch the action to set the user in the redux store
     }
     if (user ) {
       navigate("/");

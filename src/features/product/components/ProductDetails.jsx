@@ -8,6 +8,7 @@ import { addToCartAsync, selectAllCart } from '../../cart/CartSlice.js';
 import { selectLoggedInUser } from '../../auth/authSlice';
 import { discountedPrice } from '../../../app/constants.js';
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
   
 // TODO: In server data we will add colors, sizes , highlights. to each product
@@ -51,10 +52,14 @@ export default function ProductDetail() {
   const items = useSelector(selectAllCart)
   const dispatch = useDispatch();
   const params = useParams();
-  
+  const navigate = useNavigate();
   const loggedInUser = user;  
   const handleCart = (e) => {
     e.preventDefault();
+    if(!loggedInUser){
+      navigate('/login');
+      return;
+    }
     if(items.findIndex((item)=> item.productId === product.id) < 0){
       const newItem = {
         ...product,

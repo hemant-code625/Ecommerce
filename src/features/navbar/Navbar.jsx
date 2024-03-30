@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import defaultProfile from '../../assets/user.jpg';
 import {
@@ -33,12 +33,14 @@ function classNames(...classes) {
 
 function Navbar({ children }) {
   const items = useSelector(selectAllCart);
-  const LoggedInUser = useSelector(selectLoggedInUser);
-  const user = useSelector(selectLoggedInUser);
-  const userProfile = {
-    name: LoggedInUser.name,
-    email: LoggedInUser.email,
-    imageUrl: (LoggedInUser.picture )? LoggedInUser.picture : defaultProfile,
+  var user = useSelector(selectLoggedInUser);
+  if(!user){
+     user = {
+      name: "Guest",
+      email: "guest@gmail.com",
+      imageUrl: defaultProfile, 
+      role: "guest"
+     }
   }
   return (
     <>
@@ -107,7 +109,7 @@ function Navbar({ children }) {
                             <span className="sr-only">Open user menu</span>
                             <img
                               className="h-8 w-8 rounded-full"
-                              src={userProfile.imageUrl}
+                              src={user.imageUrl}
                               alt=""
                             />
                           </Menu.Button>
@@ -186,7 +188,7 @@ function Navbar({ children }) {
                     <div className="flex-shrink-0">
                       <img
                         className="h-10 w-10 rounded-full"
-                        src={userProfile.imageUrl}
+                        src={user.imageUrl}
                         alt=""
                       />
                     </div>

@@ -57,39 +57,29 @@ export const GoogleAuth = async (userData) => {
 export const loginUser = async (userInfo) => {
 
     const email = userInfo.email;
-    const password = userInfo.password || userInfo.googleId;     // googleId is used as password for google users
-    var isGoogleUser = userInfo.googleId ? true : false;
-  
+    const password = userInfo.password; 
     try {
       const response = await fetch(`${VITE_REACT_APP_API_HOST}/auth/login`,{
         method:"POST",
         headers:{
           'content-Type':'application/json',
         },
-        body:JSON.stringify({email,password, isGoogleUser}),
+        body:JSON.stringify({email,password}),
       });
       if(response.ok){
         const data = await response.json();
-        console.log(data)
+        window.localStorage.setItem('token',data.token);
         return data;
+      }else{
+        const errorData = await response.json();
+        throw new Error(errorData.message);
       }
     }
     catch (error) {
         return { message: "Ops! Server Error while Loggin in!" , error};
     }
   };
-//   export const fetchGoogleAddresses = async (id) => {
-//     const response = await fetch(`${VITE_REACT_APP_API_HOST}/users/${id}`, {
-//       method: 'GET',
-//       headers: {
-//         'content-Type':'application/json',
-//       },
-//     });
-  
-//     const data = await response.json();
-//     // Extract and return the addresses from the API response
-//     return data.addresses || [];
-//   };
+
   export const UpdateUser = async (data) => {
     const respone = await fetch(`${VITE_REACT_APP_API_HOST}/users/${data.id}`,{
         method:'PATCH',

@@ -19,7 +19,6 @@ export default function Login() {
     formState: { errors },
   } = useForm();
 
-  // our logic is: if user is already in the db then just return the user details but here we need to pass the addresses array as well it should not be empty all the time! For this we need to fetch addresses using useEffect in the home page after login!
   const handleSuccess = async (credentialResponse) => {
     try {
       const token = credentialResponse.credential;
@@ -46,7 +45,12 @@ export default function Login() {
   // };
 
   useEffect(() => {
-    if (user) {
+    const token = localStorage.getItem("token") ;
+    if(token){
+      const userToken = jwtDecode(token).user;
+      console.log(userToken);
+    }
+    if (user ) {
       navigate("/");
     }
   }, [user, navigate]);

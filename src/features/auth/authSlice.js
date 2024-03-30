@@ -19,9 +19,20 @@ export const createUserAsync = createAsyncThunk(
 
 export const loginUserAsync = createAsyncThunk(
   'user/loginUser',
-  async (userInfo) => {
-    const response = await loginUser(userInfo);
-    return response;
+  async (userInfo,{rejectWithValue}) => {
+    try {
+      const response = await loginUser(userInfo);
+      // Check if the response contains an error message
+      if (response.message) {
+        // If an error message exists, reject the async thunk with the error message
+        return rejectWithValue(response.message);
+      } else {
+        // If there's no error message, return the response data
+        return response;
+      }
+    } catch (error) {
+      console.error("Error in loginUserAsync thunk", error);
+    }
   }
 );
 export const updateUserAsync = createAsyncThunk(

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import defaultProfile from '../../assets/user.jpg';
 import {
@@ -33,15 +33,16 @@ function classNames(...classes) {
 
 function Navbar({ children }) {
   const items = useSelector(selectAllCart);
-  var user = useSelector(selectLoggedInUser);
-  if(!user){
-     user = {
-      name: "Guest",
-      email: "guest@gmail.com",
-      imageUrl: defaultProfile, 
-      role: "guest"
-     }
+  var user = useSelector(selectLoggedInUser) || localStorage.getItem('token')?.user;
+  
+  if(user && user.imageUrl === ""){
+    user = { ...user, imageUrl: defaultProfile };
   }
+
+  if(!user){
+    user = { ...user, name:"Guest", email: "guest@gmail.com",imageUrl: defaultProfile };
+  }
+
   return (
     <>
        <div className="min-h-full">

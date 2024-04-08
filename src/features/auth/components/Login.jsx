@@ -31,6 +31,7 @@ export default function Login() {
       };
       dispatch(GoogleAuthAsync(user))
         .then(() => {
+          window.localStorage.setItem("token", token);
           navigate("/");
         })
         .catch((err) => {
@@ -51,6 +52,7 @@ export default function Login() {
       console.log(userToken);
       // in the homePage when user comes to the site we will check if token is present in local storage
       // if present we will dispatch the action to set the user in the redux store
+      // for secure api request we will send the token in the header and verifyToken middleware will verify the token
     }
     if (user ) {
       navigate("/");

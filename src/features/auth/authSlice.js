@@ -72,6 +72,9 @@ export const counterSlice = createSlice({
     increment: (state) => {
       state.value += 1;
     },
+    setUser: (state, action) => {
+      state.loggedInUser = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -140,6 +143,6 @@ export const counterSlice = createSlice({
 export const selectLoggedInUser = (state)=>state.auth.loggedInUser;
 export const selectError = (state)=>state.auth.error;
 export const { increment } = counterSlice.actions;
-
+export const { setUser } = counterSlice.actions;
 
 export default counterSlice.reducer;

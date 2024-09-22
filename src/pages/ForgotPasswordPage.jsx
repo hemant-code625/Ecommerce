@@ -1,13 +1,13 @@
-import ForgotPassword from '../features/auth/components/ForgotPassword'
-import Footer from '../features/common/components/Footer'
+import ForgotPassword from "../features/auth/components/ForgotPassword";
+import Footer from "../features/common/Footer";
 
 const ForgotPasswordPage = () => {
   return (
     <>
-      <ForgotPassword/>
-      <Footer/>
+      <ForgotPassword />
+      <Footer />
     </>
-  )
-}
+  );
+};
 
-export default ForgotPasswordPage
+export default ForgotPasswordPage;

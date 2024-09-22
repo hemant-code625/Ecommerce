@@ -1,51 +1,54 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Fragment, useEffect, useRef } from 'react';
-import { Disclosure, Menu, Transition } from '@headlessui/react';
-import defaultProfile from '../../assets/user.jpg';
+import { Fragment, useEffect, useRef } from "react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import defaultProfile from "../../assets/user.jpg";
 import {
   Bars3Icon,
   ShoppingCartIcon,
   XMarkIcon,
-} from '@heroicons/react/24/outline';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import logo from '../../assets/CartLogo.svg'
-import { selectLoggedInUser } from '../auth/authSlice';
-import { selectAllCart } from '../cart/CartSlice';
+} from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
+import { selectLoggedInUser } from "../auth/authSlice";
+import { selectAllCart } from "../cart/CartSlice";
 
 const navigation = [
-  { name: 'Admin', link: '/admin', admin: true },
-  { name: 'Orders', link: '/admin/orders', admin: true },
+  { name: "Admin", link: "/admin", admin: true },
+  { name: "Orders", link: "/admin/orders", admin: true },
 ];
 const userNavigation = [
-  { name: 'My Profile', link: '/profile' },
-  { name: 'My Orders', link: '/orders' },
-  { name: 'Sign out', link: '/logout' },
+  { name: "My Profile", link: "/profile" },
+  { name: "My Orders", link: "/orders" },
+  { name: "Sign out", link: "/logout" },
 ];
 
-
-
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }
 
 function Navbar({ children }) {
   const items = useSelector(selectAllCart);
-  var user = useSelector(selectLoggedInUser) || localStorage.getItem('token')?.user;
-  
-  if(user && user.imageUrl === ""){
+  var user =
+    useSelector(selectLoggedInUser) || localStorage.getItem("token")?.user;
+
+  if (user && user.imageUrl === "") {
     user = { ...user, imageUrl: defaultProfile };
   }
 
-  if(!user){
-    user = { ...user, name:"Guest", email: "guest@gmail.com",imageUrl: defaultProfile };
+  if (!user) {
+    user = {
+      ...user,
+      name: "Guest",
+      email: "guest@gmail.com",
+      imageUrl: defaultProfile,
+    };
   }
 
   return (
     <>
-       <div className="min-h-full">
+      <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
           {({ open }) => (
             <>
@@ -54,11 +57,10 @@ function Navbar({ children }) {
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <Link to="/">
-                        <img
-                          className="h-8 w-8"
-                          src={logo}
-                          alt="Your Company"
-                        />
+                        {" "}
+                        <h1 className="text-2xl font-mono text-white">
+                          MegaMart
+                        </h1>
                       </Link>
                     </div>
                     <div className="hidden md:block">
@@ -70,11 +72,11 @@ function Navbar({ children }) {
                               to={item.link}
                               className={classNames(
                                 item.current
-                                  ? 'bg-gray-900 text-white'
-                                  : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                'rounded-md px-3 py-2 text-sm font-medium'
+                                  ? "bg-gray-900 text-white"
+                                  : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                                "rounded-md px-3 py-2 text-sm font-medium"
                               )}
-                              aria-current={item.current ? 'page' : undefined}
+                              aria-current={item.current ? "page" : undefined}
                             >
                               {item.name}
                             </Link>
@@ -131,8 +133,8 @@ function Navbar({ children }) {
                                   <Link
                                     to={item.link}
                                     className={classNames(
-                                      active ? 'bg-gray-100' : '',
-                                      'block px-4 py-2 text-sm text-gray-700'
+                                      active ? "bg-gray-100" : "",
+                                      "block px-4 py-2 text-sm text-gray-700"
                                     )}
                                   >
                                     {item.name}
@@ -174,11 +176,11 @@ function Navbar({ children }) {
                       href={item.href}
                       className={classNames(
                         item.current
-                          ? 'bg-gray-900 text-white'
-                          : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                        'block rounded-md px-3 py-2 text-base font-medium'
+                          ? "bg-gray-900 text-white"
+                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                        "block rounded-md px-3 py-2 text-base font-medium"
                       )}
-                      aria-current={item.current ? 'page' : undefined}
+                      aria-current={item.current ? "page" : undefined}
                     >
                       {item.name}
                     </Disclosure.Button>
@@ -201,27 +203,27 @@ function Navbar({ children }) {
                         {user.email}
                       </div>
                     </div>
-                    <div className='mx-20'>
-                    <Link to="/cart">
-                      <button
-                        type="button"
-                        className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 flex align-middle justify-end"
-                      >
-                        <ShoppingCartIcon
-                          className="h-6 w-6"
-                          aria-hidden="true"
-                        />
-                      </button>
-                    </Link>
+                    <div className="mx-20">
+                      <Link to="/cart">
+                        <button
+                          type="button"
+                          className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 flex align-middle justify-end"
+                        >
+                          <ShoppingCartIcon
+                            className="h-6 w-6"
+                            aria-hidden="true"
+                          />
+                        </button>
+                      </Link>
                     </div>
-                    
+
                     {items.length > 0 && (
                       <span className="inline-flex items-center rounded-md bg-red-50 mb-7 -ml-3 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
                         {items.length}
                       </span>
                     )}
                   </div>
-                 
+
                   <div className="mt-3 space-y-1 px-2">
                     {userNavigation.map((item) => (
                       <Disclosure.Button

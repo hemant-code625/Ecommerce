@@ -1,13 +1,13 @@
-import  Footer  from '../features/common/components/Footer'
-import Order from '../features/orders/components/order'
+import Footer from "../features/common/Footer";
+import Order from "../features/orders/components/order";
 
 const OrderSuccessPage = () => {
   return (
     <>
-      <Order/>
-      <Footer/>
+      <Order />
+      <Footer />
     </>
-  )
-}
+  );
+};
 
-export default OrderSuccessPage
+export default OrderSuccessPage;

@@ -278,7 +278,7 @@ const MyProfile = () => {
               ) : null}
 
           <p className="mt-0.5 text-sm text-gray-500">Your Addresses :</p>
-          {user.addresses.map((address, index) => (
+          {user.addresses && user.addresses.map((address, index) => (
             <div key={index}>
               {selectedEditIndex === index ? (
                 <form

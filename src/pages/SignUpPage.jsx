@@ -1,13 +1,13 @@
-import SignUp from "../features/auth/components/SignUp"
-import Footer  from "../features/common/components/Footer"
+import SignUp from "../features/auth/components/SignUp";
+import Footer from "../features/common/Footer";
 
 const SignUpPage = () => {
   return (
     <>
-     <SignUp/> 
-     <Footer/>
+      <SignUp />
+      <Footer />
     </>
-  )
-}
+  );
+};
 
-export default SignUpPage
+export default SignUpPage;

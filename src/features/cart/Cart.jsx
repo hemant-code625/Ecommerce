@@ -25,6 +25,14 @@ const Cart = () => {
     dispatch(updateCartItemAsync({...product, quantity: parseInt(e.target.value)}));
   }
 
+  if(products.length === 0){
+    return (
+      <div className="text-center mt-12">
+        <h2 className="text-3xl font-bold">Cart is Empty</h2>
+        <Link to="/" className="text-indigo-600 hover:text-indigo-500">Continue Shopping</Link>
+      </div>
+    )
+  }
 
   return (
     <>

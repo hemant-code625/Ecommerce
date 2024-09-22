@@ -1,12 +1,16 @@
 /* eslint-disable no-useless-escape */
 import { useSelector, useDispatch } from "react-redux";
-import {GoogleAuthAsync, loginUserAsync, selectError, selectLoggedInUser } from "../authSlice";
+import {
+  GoogleAuthAsync,
+  loginUserAsync,
+  selectError,
+  selectLoggedInUser,
+} from "../authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useEffect } from "react";
-import logo from "../../../assets/CartLogo.svg";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -21,17 +25,11 @@ export default function Login() {
 
   const handleSuccess = async (credentialResponse) => {
     try {
-      const token = credentialResponse.credential;
-      const decodedToken = jwtDecode(token);
-      const user = {
-        name: decodedToken.name,
-        email: decodedToken.email,
-        picture: decodedToken.picture,
-        googleId: parseInt(decodedToken.sub), 
-      };
-      dispatch(GoogleAuthAsync(user))
+      const credentials = credentialResponse.credential;
+      const decode = jwtDecode(credentials);
+      const googleId = parseInt(decode.sub);
+      dispatch(GoogleAuthAsync(googleId))
         .then(() => {
-          window.localStorage.setItem("token", token);
           navigate("/");
         })
         .catch((err) => {
@@ -46,15 +44,8 @@ export default function Login() {
   // };
 
   useEffect(() => {
-    const token = localStorage.getItem("token") ;
-    if(token){
-      const userToken = jwtDecode(token).user;
-      console.log(userToken);
-      // in the homePage when user comes to the site we will check if token is present in local storage
-      // if present we will dispatch the action to set the user in the redux store
-      // for secure api request we will send the token in the header and verifyToken middleware will verify the token
-    }
-    if (user ) {
+    const token = localStorage.getItem("token");
+    if (user || token) {
       navigate("/");
     }
   }, [user, navigate]);
@@ -63,7 +54,7 @@ export default function Login() {
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" />
+          {/* <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" /> */}
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Log in to your account
           </h2>

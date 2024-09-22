@@ -45,8 +45,8 @@ export const updateUserAsync = createAsyncThunk(
 
 export const GoogleAuthAsync = createAsyncThunk(
   'user/GoogleAuth',
-  async (userData) => {
-    const response = await GoogleAuth(userData);
+  async (googleId) => {
+    const response = await GoogleAuth(googleId);
     return response;
   }
 )

@@ -1,5 +1,3 @@
-// import process from 'process';
-// const VITE_REACT_APP_API_HOST = process.env.SERVER_HOST;
 const VITE_REACT_APP_API_HOST = import.meta.env.VITE_REACT_APP_API_HOST;
 
 
@@ -38,20 +36,22 @@ export const updateRole = async (userId, newRole) => {           // added role m
     }
 };
 
-export const GoogleAuth = async (userData) => {
+export const GoogleAuth = async (googleId) => {
     const response = await fetch(`${VITE_REACT_APP_API_HOST}/auth/google`, {
         method: 'POST',
         headers: {
             'content-Type': 'application/json',
         },
-        body: JSON.stringify({ userData }),
+        body: JSON.stringify({ googleId }),
     });
     
-    if (response.ok) {
-        return await response.json();
-    } else {
-        throw new Error('Something went wrong');
-    }
+    if (!response.ok) {
+        throw new Error('Google auth failed');
+      }
+    
+      const {token, user} = await response.json();
+      window.localStorage.setItem('token', token);
+      return user;
 }
 
 export const loginUser = async (userInfo) => {

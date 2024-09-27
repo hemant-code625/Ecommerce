@@ -150,7 +150,7 @@ function Navbar({ children }) {
                           </Menu.Items>
                         </Transition>
                       </Menu>
-                      <ThemeToggle />
+                      {/* <ThemeToggle /> */}
                     </div>
                   </div>
                   <div className="-mr-2 flex md:hidden">

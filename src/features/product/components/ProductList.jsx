@@ -116,7 +116,7 @@ export default function ProductList() {
   }, []);
 
   return (
-    <div className="bg-white">
+    <div className="dark:bg-slate-800 bg-white">
       <div>
         <MobileFilter
           handleFilter={handleFilter}

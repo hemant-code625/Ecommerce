@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* :root {
+  --body_background: white;
+  --body_color: black;
+  --border_color: black;
+  --link_color: navy;
+}
+[data-theme="dark"] {
+  --body_background: black;
+  --body_color: white;
+  --border_color: black;
+  --link_color: cyan;
+} */
+
+* {
+  transition: all 0.3s ease-in-out;
+}

@@ -3,6 +3,8 @@
 import { Fragment, useEffect, useRef } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import defaultProfile from "../../assets/user.jpg";
+// import LightCart from "../../assets/cart-icon-light.svg";
+// import DarkCart from "../../assets/cart-icon-dark.svg";
 import {
   Bars3Icon,
   ShoppingCartIcon,
@@ -13,6 +15,7 @@ import { useSelector } from "react-redux";
 
 import { selectLoggedInUser } from "../auth/authSlice";
 import { selectAllCart } from "../cart/CartSlice";
+import ThemeToggle from "../common/ThemeToggle";
 
 const navigation = [
   { name: "Admin", link: "/admin", admin: true },
@@ -45,11 +48,12 @@ function Navbar({ children }) {
       imageUrl: defaultProfile,
     };
   }
-
+  const theme = window.localStorage.getItem("theme");
   return (
     <>
       <div className="min-h-full">
-        <Disclosure as="nav" className="bg-gray-800">
+        <Disclosure as="nav" className="bg-gray-800 ">
+          {/* <Disclosure as="nav" className="dark:bg-gray-800 bg-violet-100"> */}
           {({ open }) => (
             <>
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -90,13 +94,14 @@ function Navbar({ children }) {
                       <Link to="/cart">
                         <button
                           type="button"
-                          className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                          className="rounded-full dark:bg-gray-800 p-1 text-gray-400 focus:outline-none focus:ring-2 focus:ring-vio focus:ring-offset-2 focus:ring-offset-gray-800"
                         >
                           <span className="sr-only">View notifications</span>
                           <ShoppingCartIcon
                             className="h-6 w-6"
                             aria-hidden="true"
                           />
+                          {/* {theme === "light" ? <LightCart /> : <DarkCart />} */}
                         </button>
                       </Link>
                       {items.length > 0 && (
@@ -145,6 +150,7 @@ function Navbar({ children }) {
                           </Menu.Items>
                         </Transition>
                       </Menu>
+                      <ThemeToggle />
                     </div>
                   </div>
                   <div className="-mr-2 flex md:hidden">

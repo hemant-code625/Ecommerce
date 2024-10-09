@@ -43,6 +43,7 @@ function classNames(...classes) {
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const productsList = useSelector(selectAllProducts);
   const brands = useSelector(selectBrands);
@@ -52,8 +53,10 @@ export default function ProductList() {
   useEffect(() => {
     setTimeout(() => {
       setProducts(productsList.products);
+      setLoading(false);
     }, 2000);
-  });
+  }, [productsList]);
+
   const filters = [
     {
       id: "category",
@@ -206,7 +209,22 @@ export default function ProductList() {
               ></DesktopFilter>
               {/* Product grid */}
               <div className="lg:col-span-3">
-                <ProductGrid products={products}></ProductGrid>
+                {loading ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[...Array(6)].map((_, index) => (
+                      <div
+                        key={index}
+                        className="animate-pulse p-4 border border-gray-200 rounded-lg"
+                      >
+                        <div className="h-48 bg-gray-300 rounded"></div>
+                        <div className="mt-4 h-4 bg-gray-300 rounded w-3/4"></div>
+                        <div className="mt-2 h-4 bg-gray-300 rounded w-1/2"></div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <ProductGrid products={products}></ProductGrid>
+                )}
               </div>
               {/* Product grid end */}
             </div>
@@ -218,6 +236,7 @@ export default function ProductList() {
             setPage={setPage}
             handlePage={handlePage}
             totalItems={totalItems}
+            setLoading={setLoading}
           ></Pagination>
         </main>
       </div>
@@ -452,36 +471,138 @@ function DesktopFilter({ handleFilter, filters }) {
   );
 }
 
-function Pagination({ page, setPage, handlePage, totalItems }) {
+function Pagination({ page, setPage, totalItems, setLoading }) {
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setPage(newPage);
+      setLoading(true);
+    }
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    const showEllipsis = totalPages > 7;
+    const ellipsis = (
+      <span className="relative inline-flex items-center px-4 py-2">...</span>
+    );
+
+    if (showEllipsis) {
+      if (page <= 4) {
+        for (let i = 1; i <= 5; i++) {
+          pageNumbers.push(
+            <PageButton
+              key={i}
+              pageNum={i}
+              currentPage={page}
+              onClick={() => handlePageChange(i)}
+            />
+          );
+        }
+        pageNumbers.push(ellipsis);
+        pageNumbers.push(
+          <PageButton
+            key={totalPages}
+            pageNum={totalPages}
+            currentPage={page}
+            onClick={() => handlePageChange(totalPages)}
+          />
+        );
+      } else if (page >= totalPages - 3) {
+        pageNumbers.push(
+          <PageButton
+            key={1}
+            pageNum={1}
+            currentPage={page}
+            onClick={() => handlePageChange(1)}
+          />
+        );
+        pageNumbers.push(ellipsis);
+        for (let i = totalPages - 4; i <= totalPages; i++) {
+          pageNumbers.push(
+            <PageButton
+              key={i}
+              pageNum={i}
+              currentPage={page}
+              onClick={() => handlePageChange(i)}
+            />
+          );
+        }
+      } else {
+        pageNumbers.push(
+          <PageButton
+            key={1}
+            pageNum={1}
+            currentPage={page}
+            onClick={() => handlePageChange(1)}
+          />
+        );
+        pageNumbers.push(ellipsis);
+        for (let i = page - 1; i <= page + 1; i++) {
+          pageNumbers.push(
+            <PageButton
+              key={i}
+              pageNum={i}
+              currentPage={page}
+              onClick={() => handlePageChange(i)}
+            />
+          );
+        }
+        pageNumbers.push(ellipsis);
+        pageNumbers.push(
+          <PageButton
+            key={totalPages}
+            pageNum={totalPages}
+            currentPage={page}
+            onClick={() => handlePageChange(totalPages)}
+          />
+        );
+      }
+    } else {
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(
+          <PageButton
+            key={i}
+            pageNum={i}
+            currentPage={page}
+            onClick={() => handlePageChange(i)}
+          />
+        );
+      }
+    }
+
+    return pageNumbers;
+  };
+
   return (
     <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
       <div className="flex flex-1 justify-between sm:hidden">
-        <div
-          onClick={(e) => handlePage(page > 1 ? page - 1 : page)}
+        <button
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 1}
           className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Previous
-        </div>
-        <div
-          onClick={(e) => handlePage(page < totalPages ? page + 1 : page)}
+        </button>
+        <button
+          onClick={() => handlePageChange(page + 1)}
+          disabled={page === totalPages}
           className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Next
-        </div>
+        </button>
       </div>
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700">
             Showing{" "}
             <span className="font-medium">
-              {(page - 1) * ITEMS_PER_PAGE + 1}
+              {Math.min((page - 1) * ITEMS_PER_PAGE + 1, totalItems)}
             </span>{" "}
             to{" "}
             <span className="font-medium">
-              {page * ITEMS_PER_PAGE > totalItems
-                ? totalItems
-                : page * ITEMS_PER_PAGE}
+              {Math.min(page * ITEMS_PER_PAGE, totalItems)}
             </span>{" "}
             of <span className="font-medium">{totalItems}</span> results
           </p>
@@ -491,41 +612,43 @@ function Pagination({ page, setPage, handlePage, totalItems }) {
             className="isolate inline-flex -space-x-px rounded-md shadow-sm"
             aria-label="Pagination"
           >
-            <div
-              onClick={(e) => handlePage(page > 1 ? page - 1 : page)}
+            <button
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page === 1}
               className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
             >
               <span className="sr-only">Previous</span>
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-            </div>
-            {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
-
-            {Array.from({ length: totalPages }).map((el, index) => (
-              <div
-                key={index}
-                onClick={(e) => handlePage(index + 1)}
-                aria-current="page"
-                className={`relative cursor-pointer z-10 inline-flex items-center ${
-                  index + 1 === page
-                    ? "bg-indigo-600 text-white"
-                    : "text-gray-400"
-                } px-4 py-2 text-sm font-semibold  focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
-              >
-                {index + 1}
-              </div>
-            ))}
-
-            <div
-              onClick={(e) => handlePage(page < totalPages ? page + 1 : page)}
+            </button>
+            {renderPageNumbers()}
+            <button
+              onClick={() => handlePageChange(page + 1)}
+              disabled={page === totalPages}
               className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
             >
               <span className="sr-only">Next</span>
               <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-            </div>
+            </button>
           </nav>
         </div>
       </div>
     </div>
+  );
+}
+
+function PageButton({ pageNum, currentPage, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      aria-current={currentPage === pageNum ? "page" : undefined}
+      className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
+        currentPage === pageNum
+          ? "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          : "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+      }`}
+    >
+      {pageNum}
+    </button>
   );
 }
 

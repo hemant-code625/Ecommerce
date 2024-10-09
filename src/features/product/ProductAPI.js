@@ -13,13 +13,28 @@ export function fetchAllProducts() {
 }
 
 export function fetchProductById(id) {
-  return new Promise(async (resolve) => {
-    //TODO: we will not hard-code server URL here
-    const response = await fetch(
-      `${VITE_REACT_APP_API_HOST}/products?id=` + id
-    );
-    const data = await response.json();
-    resolve({ data });
+  return new Promise(async () => {
+    const idNum = parseInt(id);
+    try {
+      const response = await fetch(`https://dummyjson.com/products/${idNum}`);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return {
+        data: {
+          products: data,
+        },
+      };
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      return {
+        data: { products: [] },
+        error: error.message,
+      };
+    }
   });
 }
 export const createProduct = async (data) => {
@@ -55,52 +70,58 @@ export const updateProduct = async (update) => {
   }
 };
 
-export function fetchProductsByFilters(filter, sort, pagination) {
-  let queryString = "";
+export async function fetchProductsByFilters(filter, sort, pagination) {
+  let queryString = new URLSearchParams();
 
   // Handle filters
   if (filter.category && filter.category.length) {
-    queryString += `category=${filter.category.join(",")}&`;
+    queryString.append("category", filter.category.join(","));
   }
-
-  // Handle brand filtering
   if (filter.brand && filter.brand.length) {
-    queryString += `brand=${filter.brand.join(",")}&`;
+    queryString.append("brand", filter.brand.join(","));
   }
 
   // Handle sorting
   if (sort._sort && sort._order) {
-    queryString += `_sort=${sort._sort}&_order=${sort._order}&`;
+    queryString.append("_sort", sort._sort);
+    queryString.append("_order", sort._order);
   }
 
   // Handle pagination
-  if (pagination._page && pagination._limit) {
-    queryString += `_page=${pagination._page}&_limit=${pagination._limit}&`;
-  }
+  const page = pagination._page || 1;
+  const limit = pagination._limit || 10;
+  queryString.append("skip", ((page - 1) * limit).toString());
+  queryString.append("limit", limit.toString());
 
-  // Remove the trailing '&' if present
-  if (queryString.endsWith("&")) {
-    queryString = queryString.slice(0, -1);
-  }
+  try {
+    const response = await fetch(
+      `https://dummyjson.com/products?${queryString}`
+    );
 
-  return new Promise(async (resolve) => {
-    try {
-      const response = await fetch(
-        `https://dummyjson.com/products?${queryString}`
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const totalItems = response.headers.get("X-Total-Count");
-      resolve({ data: { products: data, totalItems: +totalItems } });
-    } catch (error) {
-      console.error("Error fetching products:", error);
-      resolve({ data: { products: [], totalItems: 0 }, error: error.message });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  });
+
+    const data = await response.json();
+
+    const totalItems = data.total;
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return {
+      data: {
+        products: data,
+        totalItems: totalItems,
+        totalPages: totalPages,
+        currentPage: page,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return {
+      data: { products: [], totalItems: 0, totalPages: 0, currentPage: 1 },
+      error: error.message,
+    };
+  }
 }
 
 export function fetchCategories() {

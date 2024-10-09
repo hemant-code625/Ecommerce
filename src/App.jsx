@@ -35,6 +35,7 @@ function App() {
     if (localStorage.getItem("token")) {
       const user = jwtDecode(localStorage.getItem("token"));
       const userProfile = {
+        id: user.id,
         name: user.name,
         email: user.email,
         imageUrl: user.picture,
@@ -42,7 +43,6 @@ function App() {
         addresses: user.addresses,
         role: user.role,
       };
-      console.log("user from token: ", userProfile);
       dispatch(fetchCartByUserIdAsync(userProfile.id));
       // save the user in the redux store
       dispatch(setUser(userProfile));

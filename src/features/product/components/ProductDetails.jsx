@@ -1,12 +1,16 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectLoggedInUser } from "../../auth/authSlice.js";
+import { addToCartAsync } from "../../cart/CartSlice.js";
 const ProductDetails = () => {
   const [product, setProduct] = useState({});
   const [selectedImage, setSelectedImage] = useState(""); // State to handle the selected image
   const { id } = useParams();
+  const loggedIn = useSelector(selectLoggedInUser);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getProductDetails = async () => {
@@ -24,6 +28,21 @@ const ProductDetails = () => {
 
   const handleImageClick = (imageUrl) => {
     setSelectedImage(imageUrl); // Update the main image when a thumbnail is clicked
+  };
+  const navigate = useNavigate();
+
+  const handleBuyNow = (product) => {
+    if (!loggedIn) {
+      navigate("/login");
+    } else {
+      dispatch(
+        addToCartAsync({
+          product: product.id,
+          quantity: 1,
+          user: loggedIn.id,
+        })
+      );
+    }
   };
 
   return (
@@ -69,7 +88,7 @@ const ProductDetails = () => {
             {product?.description}
           </p>
           <p className="text-lg font-semibold text-green-600 mb-4">
-            ${product?.price?.toFixed(2)}
+            ₹ {product?.price?.toFixed(2)}
           </p>
 
           <div className="flex items-center mb-4">
@@ -133,7 +152,10 @@ const ProductDetails = () => {
 
           {/* Buy Now and Add to Cart Buttons */}
           <div className="mt-6 space-x-4">
-            <button className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700">
+            <button
+              onClick={() => handleBuyNow(product)}
+              className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+            >
               Buy Now
             </button>
             <button className="px-6 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700">
